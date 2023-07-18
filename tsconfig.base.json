@@ -15,6 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@shop-project/microservices/catalog/migrations": [
+        "libs/microservices/catalog/migrations/src/index.ts"
+      ],
       "@shop-project/microservices/catalog/schema": [
         "libs/microservices/catalog/schema/src/index.ts"
       ],

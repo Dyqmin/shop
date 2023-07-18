@@ -1,0 +1,5 @@
+{
+  "out": "libs/microservices/catalog/migrations/src/lib/output",
+  "schema": "libs/microservices/catalog/schema/src/lib",
+  "breakpoints": false
+}

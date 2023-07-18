@@ -1,0 +1,34 @@
+{
+  "name": "microservices-catalog-migrations",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/microservices/catalog/migrations/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libs/microservices/catalog/migrations",
+        "main": "libs/microservices/catalog/migrations/src/index.ts",
+        "tsConfig": "libs/microservices/catalog/migrations/tsconfig.lib.json",
+        "assets": ["libs/microservices/catalog/migrations/**/*.sql"]
+      }
+    },
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "node dist/libs/microservices/catalog/migrations"
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/microservices/catalog/migrations/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}
