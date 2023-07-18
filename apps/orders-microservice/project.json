@@ -1,0 +1,64 @@
+{
+  "name": "orders-microservice",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/orders-microservice/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/orders-microservice",
+        "main": "apps/orders-microservice/src/main.ts",
+        "tsConfig": "apps/orders-microservice/tsconfig.app.json",
+        "assets": ["apps/orders-microservice/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/orders-microservice/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "orders-microservice:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "orders-microservice:build:development"
+        },
+        "production": {
+          "buildTarget": "orders-microservice:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/orders-microservice/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/orders-microservice/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}

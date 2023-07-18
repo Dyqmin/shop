@@ -14,7 +14,14 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@shop-project/microservices/catalog/schema": [
+        "libs/microservices/catalog/schema/src/index.ts"
+      ],
+      "@shop-project/microservices/catalog/types": [
+        "libs/microservices/catalog/types/src/index.ts"
+      ]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
