@@ -1,0 +1,49 @@
+version: '3.9'
+
+services:
+  rabbitmq:
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    env_file:
+      - .env.local
+    image: rabbitmq:3-management-alpine
+    networks:
+      - rabbitmq_go_net
+  db-catalog:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - db-catalog:/var/lib/postgresql/data
+  #  db-customers:
+  #    image: postgres:14.1-alpine
+  #    restart: always
+  #    environment:
+  #      - POSTGRES_USER=postgres
+  #      - POSTGRES_PASSWORD=postgres
+  #    ports:
+  #      - '5433:5432'
+  #    volumes:
+  #      - db-customers:/var/lib/postgresql/data
+  cart-redis:
+    env_file:
+      - .env.local
+    image: redis:latest
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - ${REDIS_PORT:-6379}:6379
+
+networks:
+  rabbitmq_go_net:
+    driver: bridge
+volumes:
+  db-catalog:
+    driver: local
+#  db-customers:
+#    driver: local
