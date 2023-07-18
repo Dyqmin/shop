@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NxWelcomeComponent } from './nx-welcome.component';
+import {NavComponent} from "@shop-project/shop/client/ui";
 
 @Component({
   standalone: true,
-  imports: [NxWelcomeComponent, RouterModule],
+  imports: [RouterModule, NavComponent],
   selector: 'shop-project-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
+  template: `
+    <shop-project-nav />
+    <router-outlet></router-outlet>
+  `
 })
 export class AppComponent {
   title = 'shop-app';
