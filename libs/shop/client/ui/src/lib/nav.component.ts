@@ -5,12 +5,15 @@ import {RouterLink} from "@angular/router";
   standalone: true,
   selector: 'shop-project-nav',
   template: `
-    <nav>
-      <ul>
-        <li><a routerLink="/">Home</a></li>
-        <li><a routerLink="/products">Products</a></li>
-        <li><a routerLink="/contact">Contact</a></li>
-      </ul>
+    <nav class="max-w-screen-lg w-full mx-auto p-3 md:p-0">
+      <span class="text-3xl flex justify-center">Sklep Market</span>
+      <div class="flex justify-between">
+        <a routerLink="/">Strona główna</a>
+        <a routerLink="/products">Produkty</a>
+        <a routerLink="/orders">Zamówienia</a>
+        <a routerLink="/cart">Koszyk</a>
+        <a routerLink="/contact">Kontakt</a>
+      </div>
     </nav>`,
   imports: [
     RouterLink
