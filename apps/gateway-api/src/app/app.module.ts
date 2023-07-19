@@ -3,9 +3,11 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import {ProductsController} from "./controllers/products-controller";
 import {ClientsModule, Transport} from "@nestjs/microservices";
+import { ApiAuthModule } from "@shop-project/api/auth";
 
 @Module({
   imports: [
+    ApiAuthModule,
     ClientsModule.register([
       // {
       //   name: 'CART_SERVICE',

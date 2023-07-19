@@ -11,7 +11,7 @@ import {NgOptimizedImage} from "@angular/common";
       <img [ngSrc]="product.imageUrl!" width="200" height="200" />
       <div class="flex justify-between w-full items-center mt-2">
         <span>{{ product.price }} PLN</span>
-        <button class="bg-gray-800 text-white p-2 rounded-md">Dodaj</button>
+        <button class="bg-gray-800 text-white p-2 rounded-md text-sm">Dodaj</button>
       </div>
     </div>
   `,

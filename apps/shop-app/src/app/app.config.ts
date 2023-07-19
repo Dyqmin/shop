@@ -4,19 +4,27 @@ import {
   withEnabledBlockingInitialNavigation,
 } from '@angular/router';
 import { appRoutes } from './app.routes';
-import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  provideHttpClient,
+  withInterceptorsFromDi,
+} from '@angular/common/http';
 import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(appRoutes, withEnabledBlockingInitialNavigation()),
-    provideHttpClient(),
     importProvidersFrom([
       AuthModule.forRoot({
         domain: 'dev-5bvy0pqb0cg0k864.us.auth0.com',
         clientId: '4UutVnSMUyG03cKwLFTEDLHHrywWTd9l',
+        httpInterceptor: {
+          allowedList: ['*'],
+        },
         authorizationParams: {
           redirect_uri: window.location.origin,
+          audience: 'shop-gateway',
+          scope: 'openid profile email',
         },
       }),
     ]),
@@ -25,5 +33,6 @@ export const appConfig: ApplicationConfig = {
       useClass: AuthHttpInterceptor,
       multi: true,
     },
+    provideHttpClient(withInterceptorsFromDi()),
   ],
 };
