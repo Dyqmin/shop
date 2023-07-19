@@ -1,4 +1,5 @@
 import { pgTable, serial, varchar, numeric } from "drizzle-orm/pg-core";
+import {createInsertSchema, createSelectSchema} from "drizzle-zod";
 
 export const products = pgTable("products", {
   id: serial("id").primaryKey(),
@@ -6,3 +7,6 @@ export const products = pgTable("products", {
   description: varchar("description", { length: 256 }),
   price: numeric("price"),
 });
+
+export const selectProductsSchema = createSelectSchema(products);
+export const insertProductsSchema = createInsertSchema(products);

@@ -14,14 +14,6 @@
         "assets": ["libs/microservices/catalog/migrations/**/*.sql"]
       }
     },
-    "serve": {
-      "executor": "nx:run-commands",
-      "options": {
-        "commands": [
-          "node dist/libs/microservices/catalog/migrations"
-        ]
-      }
-    },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],

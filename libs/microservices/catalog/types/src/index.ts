@@ -1,1 +1,1 @@
-export * from './lib/microservices-catalog-types.module';
+export * from './lib/product';

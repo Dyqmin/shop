@@ -24,6 +24,9 @@
       "@shop-project/microservices/catalog/types": [
         "libs/microservices/catalog/types/src/index.ts"
       ],
+      "@shop-project/microservices/shared/database": [
+        "libs/microservices/shared/database/src/index.ts"
+      ],
       "@shop-project/shop/client/products/data-access": [
         "libs/shop/client/products/data-access/src/index.ts"
       ],
