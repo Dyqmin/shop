@@ -23,6 +23,11 @@ export class AppController {
     return this._productsService.getProducts();
   }
 
+  @MessagePattern({ cmd: 'getProduct' })
+  getProduct(@Payload() data: { id: number }) {
+    return this._productsService.getProduct(data.id);
+  }
+
   @MessagePattern({ cmd: 'insertProducts' })
   insertProduct(@Payload() data: { product: NewProduct }, @Ctx() context: RmqContext) {
     return this._productsService.insertProduct(data.product);

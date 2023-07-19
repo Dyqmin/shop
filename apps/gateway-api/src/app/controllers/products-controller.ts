@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
+import {Body, Controller, Get, Inject, Param, Post} from '@nestjs/common';
 
 import { ClientProxy } from "@nestjs/microservices";
 import {ApiBody, ApiResponse, ApiTags} from "@nestjs/swagger";
@@ -17,6 +17,14 @@ export class ProductsController {
   })
   getProducts() {
     return this.c.send({ cmd: 'getProducts' }, {});
+  }
+
+  @Get(':id')
+  @ApiResponse({
+    schema: zodToOpenAPI(selectProductsSchema)
+  })
+  getProduct(@Param('id') id: number) {
+    return this.c.send({ cmd: 'getProduct' }, { id });
   }
 
   @Post()
