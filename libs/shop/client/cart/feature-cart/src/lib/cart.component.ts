@@ -18,21 +18,30 @@ import { CartItem } from '@shop-project/microservices/cart/types';
       <shop-project-cart-item
         *ngFor="let cartItem of cartItems"
         [cartItem]="cartItem"
-        (remove)="onRemove(cartItem)" />
+        [disabled]="cartFeature.itemsFetching()"
+        (remove)="onRemove(cartItem)"
+        (quantityChange)="onQuantityChange($event, cartItem)" />
     </ng-container>
 
     <div class="flex justify-between my-3">
       <span>Łączna kwota: {{ cartFeature.fullPrice() }}</span>
-      <button class="bg-green-800 text-white p-1 w-32 rounded-md text-sm hover:bg-green-700 transition duration-300">Złóż zamówienie</button>
+      <button
+        class="bg-green-800 text-white p-1 w-32 rounded-md text-sm hover:bg-green-700 transition duration-300">
+        Złóż zamówienie
+      </button>
     </div>
-
   `,
   selector: 'shop-project-cart',
   imports: [NgIf, NgFor, CartItemComponent],
 })
 export class CartComponent {
   readonly cartFeature = injectCartFeature();
+
   onRemove(cartItem: CartItem) {
     this.cartFeature.removeFromCart(cartItem);
+  }
+
+  onQuantityChange(qty: number, cartItem: CartItem) {
+    this.cartFeature.modifyCart({ ...cartItem, quantity: qty });
   }
 }

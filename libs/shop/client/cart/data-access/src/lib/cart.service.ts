@@ -11,7 +11,7 @@ export class CartService {
     return this._http.get<CartItem[]>('http://localhost:3333/api/cart');
   }
 
-  addItem(cartItem: CartItem): Observable<CartItem[]> {
+  addOrRemoveItem(cartItem: CartItem): Observable<CartItem[]> {
     return this._http.post<CartItem[]>('http://localhost:3333/api/cart', cartItem);
   }
 
