@@ -56,6 +56,15 @@ dependencies:
   '@nestjs/swagger':
     specifier: ^7.1.1
     version: 7.1.1(@nestjs/common@10.1.0)(@nestjs/core@10.1.0)(reflect-metadata@0.1.13)
+  '@ngrx/effects':
+    specifier: ^16.1.0
+    version: 16.1.0(@angular/core@16.1.5)(@ngrx/store@16.1.0)(rxjs@7.8.1)
+  '@ngrx/store':
+    specifier: ^16.1.0
+    version: 16.1.0(@angular/core@16.1.5)(rxjs@7.8.1)
+  '@ngrx/store-devtools':
+    specifier: ^16.1.0
+    version: 16.1.0(@ngrx/store@16.1.0)(rxjs@7.8.1)
   '@nx/angular':
     specifier: 16.5.3
     version: 16.5.3(@angular-devkit/build-angular@16.1.4)(@angular-devkit/core@16.1.4)(@angular-devkit/schematics@16.1.4)(@schematics/angular@16.1.4)(@types/node@18.7.23)(cypress@12.17.1)(esbuild@0.18.14)(eslint@8.15.0)(nx@16.5.3)(rxjs@7.8.1)(typescript@5.1.6)
@@ -3833,6 +3842,41 @@ packages:
       '@nestjs/platform-express': 10.1.0(@nestjs/common@10.1.0)(@nestjs/core@10.1.0)
       tslib: 2.6.0
     dev: true
+
+  /@ngrx/effects@16.1.0(@angular/core@16.1.5)(@ngrx/store@16.1.0)(rxjs@7.8.1):
+    resolution: {integrity: sha512-sdLzxjdQcYht3SYiuhchF4uOxxZIy3h9TEoyVp6PZJmiLJqhMAmV9/+s3tPD7yKd4+4o4n+HeiLDOTlMxn3Bxg==}
+    peerDependencies:
+      '@angular/core': ^16.0.0
+      '@ngrx/store': 16.1.0
+      rxjs: ^6.5.3 || ^7.5.0
+    dependencies:
+      '@angular/core': 16.1.5(rxjs@7.8.1)(zone.js@0.13.1)
+      '@ngrx/store': 16.1.0(@angular/core@16.1.5)(rxjs@7.8.1)
+      rxjs: 7.8.1
+      tslib: 2.6.0
+    dev: false
+
+  /@ngrx/store-devtools@16.1.0(@ngrx/store@16.1.0)(rxjs@7.8.1):
+    resolution: {integrity: sha512-7MKvmdRhAoIClOX9KkIeeQxe6c/uUqe1UcjFTABsquioSac4r/TxfUkmelSjtlQLBXiUAKTc9icqhZzfyMI0gw==}
+    peerDependencies:
+      '@ngrx/store': 16.1.0
+      rxjs: ^6.5.3 || ^7.5.0
+    dependencies:
+      '@ngrx/store': 16.1.0(@angular/core@16.1.5)(rxjs@7.8.1)
+      rxjs: 7.8.1
+      tslib: 2.6.0
+    dev: false
+
+  /@ngrx/store@16.1.0(@angular/core@16.1.5)(rxjs@7.8.1):
+    resolution: {integrity: sha512-cGwI5wy+irIudQubfrbaKrDbJxCvu+lZYlBmsOlpzevQLCa+ZjNLrN05J025P3KvUmfzX4StEpAc8Ord089Kig==}
+    peerDependencies:
+      '@angular/core': ^16.0.0
+      rxjs: ^6.5.3 || ^7.5.0
+    dependencies:
+      '@angular/core': 16.1.5(rxjs@7.8.1)(zone.js@0.13.1)
+      rxjs: 7.8.1
+      tslib: 2.6.0
+    dev: false
 
   /@ngtools/webpack@16.1.4(@angular/compiler-cli@16.1.5)(typescript@5.1.6)(webpack@5.86.0):
     resolution: {integrity: sha512-+8bfavDH8eWxjlJFYr6bkjcRHhy95j+f8oNn7/sGLNu4L96nuE2AZ011XIu2dJahCnNiBvwc1EpkKa92t9rkaA==}
