@@ -10,6 +10,8 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
+import { provideStore } from '@ngrx/store';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -34,5 +36,7 @@ export const appConfig: ApplicationConfig = {
       multi: true,
     },
     provideHttpClient(withInterceptorsFromDi()),
+    provideStore(),
+    provideStoreDevtools(),
   ],
 };
