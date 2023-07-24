@@ -18,6 +18,18 @@ export class AppService {
     }
   }
 
+  async removeItem(userId: string, productId: string) {
+    try {
+      const redisTrans = this.redis.multi();
+      const cartId = `cart:${userId}`;
+      redisTrans.hdel(cartId, productId);
+      await redisTrans.expire(`cart:${userId}`, 60 * 60).exec();
+      return this.getCart(userId);
+    } catch (e) {
+      return new Error('Error setting cart');
+    }
+  }
+
   async getCart(id: string) {
     const cartItems = await this.redis.hgetall(`cart:${id}`);
     const result = [];

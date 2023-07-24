@@ -29,4 +29,12 @@ export class AppController {
       })
     });
   }
+
+  @MessagePattern({ cmd: 'removeItemFromCart' })
+  removeItemFromCart(
+    @Payload() data: { userId: string; productId: string; },
+    @Ctx() context: RmqContext
+  ) {
+    return this.appService.removeItem(data.userId, data.productId);
+  }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Inject, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Inject, Param, Post } from '@nestjs/common';
 
 import { ClientProxy } from "@nestjs/microservices";
 import { ApiTags } from "@nestjs/swagger";
@@ -27,6 +27,14 @@ export class CartController {
         2: 2,
         [Math.random()]: { asd: 'asd' },
       }
+    });
+  }
+
+  @Delete(':id')
+  removeItem(@Param('id') id: string) {
+    return this.c.send({ cmd: 'removeItemFromCart' }, {
+      userId: '123',
+      productId: id,
     });
   }
 }

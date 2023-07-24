@@ -43,3 +43,23 @@ export const addToCart$ = createEffect(
   },
   { functional: true }
 );
+
+export const removeFromCart$ = createEffect(
+  (actions$ = inject(Actions)) => {
+    const cartService = inject(CartService);
+
+    return actions$.pipe(
+      ofType(CartActions.removeProduct),
+      exhaustMap(({ cartItem }) =>
+        cartService
+          .removeItem(cartItem)
+          .pipe(
+            map(cartItems =>
+              CartActions.removeProductSuccess({ items: cartItems })
+            )
+          )
+      )
+    );
+  },
+  { functional: true }
+);

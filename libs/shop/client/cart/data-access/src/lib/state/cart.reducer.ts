@@ -29,5 +29,11 @@ export const cartReducer = createReducer<CartState>(
       ...state,
       items: action.items,
     };
-  })
+  }),
+  on(CartActions.removeProductSuccess, (state, action) => {
+    return {
+      ...state,
+      items: action.items,
+    };
+  }),
 );

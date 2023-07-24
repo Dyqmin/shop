@@ -6,7 +6,7 @@ import {
   cartFeature,
   CartService,
   injectCartFeature,
-  loadCart$,
+  loadCart$, removeFromCart$,
 } from '@shop-project/shop/client/cart/data-access';
 import { provideState } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
@@ -35,7 +35,7 @@ export const provideShell = () =>
     CartService,
 
     provideState(cartFeature),
-    provideEffects({ loadCart$, addToCart$ }),
+    provideEffects({ loadCart$, addToCart$, removeFromCart$ }),
     {
       provide: APP_INITIALIZER,
       multi: true,
