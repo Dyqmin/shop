@@ -17,9 +17,9 @@ export class AppController {
     return this.appService.getCart(data.id);
   }
 
-  @MessagePattern({ cmd: 'setCart' })
+  @MessagePattern({ cmd: 'addOrModifyCartItem' })
   setCart(
-    @Payload() data: { userId: string; productId: number; product: string; quantity: number; items: Record<string, number> },
+    @Payload() data: { userId: string; productId: number; product: string; quantity: number; },
     @Ctx() context: RmqContext
   ) {
     return this.appService.setCart(data.userId, {
@@ -30,7 +30,7 @@ export class AppController {
     });
   }
 
-  @MessagePattern({ cmd: 'removeItemFromCart' })
+  @MessagePattern({ cmd: 'removeCartItem' })
   removeItemFromCart(
     @Payload() data: { userId: string; productId: string; },
     @Ctx() context: RmqContext

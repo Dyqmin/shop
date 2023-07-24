@@ -9,11 +9,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         cache: true,
         rateLimit: true,
         jwksRequestsPerMinute: 5,
-        jwksUri: `https://dev-5bvy0pqb0cg0k864.us.auth0.com/.well-known/jwks.json`,
+        jwksUri: `https://domin-shop.eu.auth0.com/.well-known/jwks.json`,
       }),
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       audience: 'shop-gateway',
-      issuer: `https://dev-5bvy0pqb0cg0k864.us.auth0.com/`,
+      issuer: `https://domin-shop.eu.auth0.com/`,
       algorithms: ['RS256'],
     });
   }

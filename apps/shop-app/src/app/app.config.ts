@@ -19,8 +19,8 @@ export const appConfig: ApplicationConfig = {
     provideRouter(appRoutes, withEnabledBlockingInitialNavigation()),
     importProvidersFrom([
       AuthModule.forRoot({
-        domain: 'dev-5bvy0pqb0cg0k864.us.auth0.com',
-        clientId: '4UutVnSMUyG03cKwLFTEDLHHrywWTd9l',
+        domain: 'domin-shop.eu.auth0.com',
+        clientId: 'Rb4YsKblmOPHuKyYlSLIPyGqY5UR5FVc',
         httpInterceptor: {
           allowedList: ['*'],
         },
