@@ -18,12 +18,11 @@ export const productsShellRoutes = [
       () => {
         const productsFeature = injectProductsFeature();
 
-        return productsFeature.enter();
+        return productsFeature.init();
       },
     ],
     providers: [
       ProductsService,
-      CartService,
       provideState(productsFeature),
       provideEffects({ loadProducts$ }),
     ],

@@ -14,7 +14,7 @@ const initialState: ProductsState = {
 
 export const productsReducer = createReducer(
   initialState,
-  on(ProductsPageActions.enter, (state, action) => {
+  on(ProductsPageActions.init, (state, action) => {
     return {
       ...state,
       products: [],

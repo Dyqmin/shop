@@ -9,9 +9,10 @@ export class AppService {
   async setCart(userId: string, items?: any) {
     try {
       const redisTrans = this.redis.multi();
-      redisTrans.hset(`cart:${userId}`, items);
+      const cartId = `cart:${userId}`;
+      redisTrans.hset(cartId, items);
       await redisTrans.expire(`cart:${userId}`, 60 * 60).exec();
-      return 'OK';
+      return this.getCart(userId);
     } catch (e) {
       return new Error('Error setting cart');
     }

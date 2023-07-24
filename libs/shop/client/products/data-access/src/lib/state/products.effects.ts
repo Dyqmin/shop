@@ -8,7 +8,7 @@ export const loadProducts$ = createEffect((actions$ = inject(Actions)) => {
   const productsService = inject(ProductsService);
 
   return actions$.pipe(
-    ofType(ProductsPageActions.enter),
+    ofType(ProductsPageActions.init),
     exhaustMap(() =>
       productsService
         .getProducts()

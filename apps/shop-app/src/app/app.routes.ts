@@ -5,6 +5,7 @@ import {
   AuthButtonComponent,
   ErrorComponent,
 } from '@shop-project/shop/client/ui';
+import { shellRoutes } from "@shop-project/shop/client/shell";
 
 export const appRoutes: Route[] = [
   {
@@ -17,23 +18,8 @@ export const appRoutes: Route[] = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'products',
-    loadChildren: () =>
-      import('@shop-project/shop/client/products/shell').then(
-        s => s.productsShellRoutes
-      ),
-    canActivate: [AuthGuard],
-  },
-  {
-    path: 'cart',
-    loadChildren: () =>
-      import('@shop-project/shop/client/cart/shell').then(
-        s => s.cartShellRoutes
-      ),
-    canActivate: [AuthGuard],
-  },
-  {
     path: 'error',
     component: ErrorComponent,
   },
+  ...shellRoutes,
 ];

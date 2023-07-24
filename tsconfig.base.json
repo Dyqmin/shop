@@ -55,6 +55,9 @@
       "@shop-project/shop/client/products/ui": [
         "libs/shop/client/products/ui/src/index.ts"
       ],
+      "@shop-project/shop/client/shell": [
+        "libs/shop/client/shell/src/index.ts"
+      ],
       "@shop-project/shop/client/ui": ["libs/shop/client/ui/src/index.ts"]
     }
   },

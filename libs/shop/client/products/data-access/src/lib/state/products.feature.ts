@@ -21,6 +21,6 @@ export const injectProductsFeature = () => {
 
   return {
     products: _store.selectSignal(selectProducts),
-    enter: () => _store.dispatch(ProductsPageActions.enter()),
+    init: () => _store.dispatch(ProductsPageActions.init()),
   };
 };
