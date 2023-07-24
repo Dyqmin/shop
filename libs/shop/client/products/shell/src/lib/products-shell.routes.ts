@@ -1,13 +1,32 @@
-import {Route} from "@angular/router";
-import {ProductsListComponent} from "@shop-project/shop/client/products/feature-products";
-import {ProductsService} from "@shop-project/shop/client/products/data-access";
-import { CartService } from "@shop-project/shop/client/cart/data-access";
+import { Route } from '@angular/router';
+import { ProductsListComponent } from '@shop-project/shop/client/products/feature-products';
+import {
+  injectProductsFeature,
+  loadProducts$,
+  productsFeature,
+  ProductsService,
+} from '@shop-project/shop/client/products/data-access';
+import { CartService } from '@shop-project/shop/client/cart/data-access';
+import { provideState } from '@ngrx/store';
+import { provideEffects } from '@ngrx/effects';
 
 export const productsShellRoutes = [
   {
     path: '',
     component: ProductsListComponent,
-    providers: [ProductsService, CartService],
+    resolve: [
+      () => {
+        const productsFeature = injectProductsFeature();
+
+        return productsFeature.enter();
+      },
+    ],
+    providers: [
+      ProductsService,
+      CartService,
+      provideState(productsFeature),
+      provideEffects({ loadProducts$ }),
+    ],
   },
   // {
   //   path: ':id',
