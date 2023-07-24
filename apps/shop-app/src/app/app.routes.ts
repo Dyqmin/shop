@@ -25,6 +25,14 @@ export const appRoutes: Route[] = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'cart',
+    loadChildren: () =>
+      import('@shop-project/shop/client/cart/shell').then(
+        s => s.cartShellRoutes
+      ),
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'error',
     component: ErrorComponent,
   },

@@ -1,11 +1,22 @@
-import { Body, Controller, Get, Inject, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Inject,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 
-import { ClientProxy } from "@nestjs/microservices";
-import {ApiBody, ApiResponse, ApiTags} from "@nestjs/swagger";
-import {NewProduct} from "@shop-project/microservices/catalog/types";
-import {insertProductsSchema, selectProductsSchema} from "@shop-project/microservices/catalog/schema";
-import {zodToOpenAPI,} from "nestjs-zod";
-import { Auth0Guard } from "@shop-project/api/auth";
+import { ClientProxy } from '@nestjs/microservices';
+import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { NewProduct } from '@shop-project/microservices/catalog/types';
+import {
+  insertProductsSchema,
+  selectProductsSchema,
+} from '@shop-project/microservices/catalog/schema';
+import { zodToOpenAPI } from 'nestjs-zod';
+import { Auth0Guard } from '@shop-project/api/auth';
 
 @Controller('products')
 @ApiTags('products')
@@ -14,7 +25,7 @@ export class ProductsController {
 
   @Get()
   @ApiResponse({
-    schema: zodToOpenAPI(selectProductsSchema)
+    schema: zodToOpenAPI(selectProductsSchema),
   })
   @UseGuards(Auth0Guard)
   getProducts() {
@@ -23,7 +34,7 @@ export class ProductsController {
 
   @Get(':id')
   @ApiResponse({
-    schema: zodToOpenAPI(selectProductsSchema)
+    schema: zodToOpenAPI(selectProductsSchema),
   })
   getProduct(@Param('id') id: number) {
     return this.c.send({ cmd: 'getProduct' }, { id });

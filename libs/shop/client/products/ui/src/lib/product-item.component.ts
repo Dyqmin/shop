@@ -1,24 +1,28 @@
-import {Component, Input} from "@angular/core";
-import {Product} from "@shop-project/microservices/catalog/types";
-import {NgOptimizedImage} from "@angular/common";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Product } from '@shop-project/microservices/catalog/types';
+import { NgOptimizedImage } from '@angular/common';
 
 @Component({
   standalone: true,
   selector: 'shop-project-product',
   template: `
-    <div class="border-2 border-gray-800 border-opacity-25 rounded-md p-3 max-w-[250px] flex flex-col justify-center items-center">
+    <div
+      class="border-2 border-gray-800 border-opacity-25 rounded-md p-3 max-w-[250px] flex flex-col justify-center items-center hover:scale-105 transition">
       <span class="text-2xl text-gray-800">{{ product.name }}</span>
       <img [ngSrc]="product.imageUrl!" width="200" height="200" />
       <div class="flex justify-between w-full items-center mt-2">
         <span>{{ product.price }} PLN</span>
-        <button class="bg-gray-800 text-white p-2 rounded-md text-sm">Dodaj</button>
+        <button
+          class="bg-gray-800 text-white p-2 rounded-md text-sm hover:bg-gray-700 transition duration-300"
+        (click)="addItemToCart.emit(product)">
+          Dodaj
+        </button>
       </div>
     </div>
   `,
-  imports: [
-    NgOptimizedImage
-  ]
+  imports: [NgOptimizedImage],
 })
 export class ProductItemComponent {
   @Input({ required: true }) product!: Product;
+  @Output() addItemToCart = new EventEmitter<Product>()
 }

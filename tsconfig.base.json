@@ -16,6 +16,9 @@
     "baseUrl": ".",
     "paths": {
       "@shop-project/api/auth": ["libs/api/auth/src/index.ts"],
+      "@shop-project/microservices/cart/types": [
+        "libs/microservices/cart/types/src/index.ts"
+      ],
       "@shop-project/microservices/catalog/migrations": [
         "libs/microservices/catalog/migrations/src/index.ts"
       ],
@@ -27,6 +30,18 @@
       ],
       "@shop-project/microservices/shared/database": [
         "libs/microservices/shared/database/src/index.ts"
+      ],
+      "@shop-project/shop/client/cart/data-access": [
+        "libs/shop/client/cart/data-access/src/index.ts"
+      ],
+      "@shop-project/shop/client/cart/feature-cart": [
+        "libs/shop/client/cart/feature-cart/src/index.ts"
+      ],
+      "@shop-project/shop/client/cart/shell": [
+        "libs/shop/client/cart/shell/src/index.ts"
+      ],
+      "@shop-project/shop/client/cart/ui": [
+        "libs/shop/client/cart/ui/src/index.ts"
       ],
       "@shop-project/shop/client/products/data-access": [
         "libs/shop/client/products/data-access/src/index.ts"
