@@ -5,7 +5,14 @@ import { AppService } from './app.service';
 import {MicroservicesSharedDatabaseModule} from "@shop-project/microservices/shared/database";
 
 @Module({
-  imports: [MicroservicesSharedDatabaseModule],
+  imports: [
+      MicroservicesSharedDatabaseModule.forRoot({
+        port: '5432',
+        user: 'postgres',
+        password: 'postgres',
+        host: 'localhost'
+      })
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

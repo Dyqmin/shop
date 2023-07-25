@@ -1,31 +1,20 @@
-import { Inject, Injectable, OnModuleInit } from "@nestjs/common";
-import { Pool } from "pg";
-import { drizzle, NodePgDatabase } from "drizzle-orm/node-postgres";
-
-interface DrizzleConfig {
-  user: string;
-  password: string;
-  host: string;
-  port: string;
-}
-
-// export const DRIZZLE_CONFIG_TOKEN = 'DRIZZLE_CONFIG_TOKEN';
+import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import { Pool } from 'pg';
+import { drizzle, NodePgDatabase } from 'drizzle-orm/node-postgres';
+import { DRIZZLE_DB_CONFIG, DrizzleDatabaseConfig } from './database.config';
 
 @Injectable()
 export class DatabaseService implements OnModuleInit {
   private _pool?: Pool;
+  private readonly _drizzleDbConfig: DrizzleDatabaseConfig;
 
-  // constructor(@Inject(DRIZZLE_CONFIG_TOKEN) drizzleConfig: DrizzleConfig) {
-  //   console.log(drizzleConfig);
-  // }
+  constructor(@Inject(DRIZZLE_DB_CONFIG) drizzleConfig: DrizzleDatabaseConfig) {
+    this._drizzleDbConfig = drizzleConfig;
+  }
 
   onModuleInit(): void {
-    const user = 'postgres';
-    const password = 'postgres';
-    const host = 'localhost';
-    const port = '5432';
+    const { port, user, password, host } = this._drizzleDbConfig;
 
-    console.log('connecting')
     try {
       this._pool = new Pool({
         connectionString: `postgres://${user}:${password}@${host}:${port}/postgres`,
