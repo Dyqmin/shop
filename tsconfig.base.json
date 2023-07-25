@@ -26,6 +26,13 @@
       "@shop-project/microservices/catalog/types": [
         "libs/microservices/catalog/types/src/index.ts"
       ],
+      "@shop-project/microservices/orders/migrations": [
+        "libs/microservices/orders/migrations/src/index.ts"
+      ],
+      "@shop-project/microservices/orders/schema": [
+        "libs/microservices/orders/schema/src/index.ts"
+      ],
+      "@shop-project/microservices/orders/types": ["libs/microservices/orders/types/src/index.ts"],
       "@shop-project/microservices/shared/database": [
         "libs/microservices/shared/database/src/index.ts"
       ],
