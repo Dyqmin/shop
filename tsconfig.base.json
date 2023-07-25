@@ -16,9 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@shop-project/api/auth": ["libs/api/auth/src/index.ts"],
-      "@shop-project/microservices/cart/types": [
-        "libs/microservices/cart/types/src/index.ts"
-      ],
+      "@shop-project/microservices/cart/types": ["libs/microservices/cart/types/src/index.ts"],
       "@shop-project/microservices/catalog/migrations": [
         "libs/microservices/catalog/migrations/src/index.ts"
       ],
@@ -37,12 +35,8 @@
       "@shop-project/shop/client/cart/feature-cart": [
         "libs/shop/client/cart/feature-cart/src/index.ts"
       ],
-      "@shop-project/shop/client/cart/shell": [
-        "libs/shop/client/cart/shell/src/index.ts"
-      ],
-      "@shop-project/shop/client/cart/ui": [
-        "libs/shop/client/cart/ui/src/index.ts"
-      ],
+      "@shop-project/shop/client/cart/shell": ["libs/shop/client/cart/shell/src/index.ts"],
+      "@shop-project/shop/client/cart/ui": ["libs/shop/client/cart/ui/src/index.ts"],
       "@shop-project/shop/client/products/data-access": [
         "libs/shop/client/products/data-access/src/index.ts"
       ],
@@ -52,15 +46,10 @@
       "@shop-project/shop/client/products/feature-products": [
         "libs/shop/client/products/feature-products/src/index.ts"
       ],
-      "@shop-project/shop/client/products/shell": [
-        "libs/shop/client/products/shell/src/index.ts"
-      ],
-      "@shop-project/shop/client/products/ui": [
-        "libs/shop/client/products/ui/src/index.ts"
-      ],
-      "@shop-project/shop/client/shell": [
-        "libs/shop/client/shell/src/index.ts"
-      ],
+      "@shop-project/shop/client/products/shell": ["libs/shop/client/products/shell/src/index.ts"],
+      "@shop-project/shop/client/products/ui": ["libs/shop/client/products/ui/src/index.ts"],
+      "@shop-project/shop/client/shared/ui": ["libs/shop/client/shared/ui/src/index.ts"],
+      "@shop-project/shop/client/shell": ["libs/shop/client/shell/src/index.ts"],
       "@shop-project/shop/client/ui": ["libs/shop/client/ui/src/index.ts"]
     }
   },

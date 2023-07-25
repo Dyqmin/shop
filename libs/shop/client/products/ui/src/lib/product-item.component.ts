@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Product } from '@shop-project/microservices/catalog/types';
 import { NgOptimizedImage } from '@angular/common';
 import { RouterLink } from "@angular/router";
+import { ButtonComponent } from "@shop-project/shop/client/shared/ui";
 
 @Component({
   standalone: true,
@@ -15,15 +16,13 @@ import { RouterLink } from "@angular/router";
       </a>
       <div class="flex justify-between w-full items-center mt-2">
         <span>{{ product.price }} PLN</span>
-        <button
-          class="bg-gray-800 text-white p-2 rounded-md text-sm hover:bg-gray-700 transition duration-300"
-        (click)="addItemToCart.emit(product)">
+        <shop-project-button (click)="addItemToCart.emit(product)">
           Dodaj
-        </button>
+        </shop-project-button>
       </div>
     </div>
   `,
-  imports: [NgOptimizedImage, RouterLink],
+  imports: [NgOptimizedImage, RouterLink, ButtonComponent],
 })
 export class ProductItemComponent {
   @Input({ required: true }) product!: Product;

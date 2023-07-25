@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { injectProductDetailsFeature } from "@shop-project/shop/client/products/data-access";
 import { NgIf, NgOptimizedImage } from "@angular/common";
 import { injectCartFeature } from "@shop-project/shop/client/cart/data-access";
+import { ButtonComponent } from "@shop-project/shop/client/shared/ui";
 
 @Component({
   standalone: true,
@@ -18,7 +19,9 @@ import { injectCartFeature } from "@shop-project/shop/client/cart/data-access";
 
           <div class="flex justify-between border-t-2 mt-2 pt-2">
             <span class="text-2xl">{{product.price}} PLN</span>
-            <button (click)="onAddToCart()" class="bg-green-800 text-white p-1 w-32 rounded-md text-sm hover:bg-green-700 transition duration-300">Dodaj do koszyka</button>
+            <shop-project-button (click)="onAddToCart()">
+              Dodaj do koszyka
+            </shop-project-button>
           </div>
         </div>
       </div>
@@ -26,7 +29,8 @@ import { injectCartFeature } from "@shop-project/shop/client/cart/data-access";
   `,
   imports: [
     NgIf,
-    NgOptimizedImage
+    NgOptimizedImage,
+    ButtonComponent,
   ]
 })
 export class ProductDetailsComponent {

@@ -3,6 +3,7 @@ import { injectCartFeature } from '@shop-project/shop/client/cart/data-access';
 import { NgFor, NgIf } from '@angular/common';
 import { CartItemComponent } from '@shop-project/shop/client/cart/ui';
 import { CartItem } from '@shop-project/microservices/cart/types';
+import { ButtonComponent } from '@shop-project/shop/client/shared/ui';
 
 @Component({
   standalone: true,
@@ -25,14 +26,13 @@ import { CartItem } from '@shop-project/microservices/cart/types';
 
     <div class="flex justify-between my-3">
       <span>Łączna kwota: {{ cartFeature.fullPrice() }}</span>
-      <button
-        class="bg-green-800 text-white p-1 w-32 rounded-md text-sm hover:bg-green-700 transition duration-300">
+      <shop-project-button [disabled]="!cartFeature.cartItems().length">
         Złóż zamówienie
-      </button>
+      </shop-project-button>
     </div>
   `,
   selector: 'shop-project-cart',
-  imports: [NgIf, NgFor, CartItemComponent],
+  imports: [NgIf, NgFor, CartItemComponent, ButtonComponent],
 })
 export class CartComponent {
   readonly cartFeature = injectCartFeature();

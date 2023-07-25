@@ -8,7 +8,7 @@ import {NavComponent} from "@shop-project/shop/client/ui";
   selector: 'shop-project-root',
   template: `
     <shop-project-nav />
-    <main class="max-w-screen-lg w-full mx-auto p-3 md:p-0">
+    <main class="max-w-screen-lg w-full mx-auto">
       <router-outlet></router-outlet>
     </main>
   `
