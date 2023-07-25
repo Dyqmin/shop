@@ -1,33 +1,17 @@
 import { Route } from '@angular/router';
 import { ProductsListComponent } from '@shop-project/shop/client/products/feature-products';
-import {
-  injectProductsFeature,
-  loadProducts$,
-  productsFeature,
-  ProductsService,
-} from '@shop-project/shop/client/products/data-access';
-import { CartService } from '@shop-project/shop/client/cart/data-access';
-import { provideState } from '@ngrx/store';
-import { provideEffects } from '@ngrx/effects';
+import { ProductDetailsComponent } from "@shop-project/shop/client/products/feature-product-details";
+import { productDetailResolver, resolveProducts } from "./products.resolver";
 
 export const productsShellRoutes = [
   {
     path: '',
     component: ProductsListComponent,
-    resolve: [
-      () => {
-        const productsFeature = injectProductsFeature();
-
-        return productsFeature.init();
-      },
-    ],
-    providers: [
-      ProductsService,
-      provideState(productsFeature),
-      provideEffects({ loadProducts$ }),
-    ],
+    resolve: [resolveProducts],
   },
-  // {
-  //   path: ':id',
-  // }
+  {
+    path: ':productId',
+    component: ProductDetailsComponent,
+    resolve: [productDetailResolver]
+  }
 ] as Route[];

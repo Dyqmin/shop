@@ -1,7 +1,7 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { inject } from '@angular/core';
 import { ProductsPageActions } from './products.actions';
-import { ProductsService } from '../products.service';
+import { ProductsService } from '../../products.service';
 import { exhaustMap, map } from 'rxjs';
 
 export const loadProducts$ = createEffect((actions$ = inject(Actions)) => {

@@ -1,7 +1,6 @@
 import { inject } from '@angular/core';
 import { createFeature, createSelector, Store } from '@ngrx/store';
 import { ProductsPageActions } from './products.actions';
-import { selectProducts } from './products.selectors';
 import { productsReducer } from './products.reducer';
 
 export const productsFeature = createFeature({
@@ -16,11 +15,15 @@ export const productsFeature = createFeature({
   }),
 });
 
+export const { selectProducts, selectCurrentProduct } = productsFeature;
+
 export const injectProductsFeature = () => {
   const _store = inject(Store);
 
   return {
     products: _store.selectSignal(selectProducts),
+    currentProduct: _store.selectSignal(selectCurrentProduct),
     init: () => _store.dispatch(ProductsPageActions.init()),
+    setCurrentId: (id: number) => _store.dispatch(ProductsPageActions.productSelected({ id })),
   };
 };

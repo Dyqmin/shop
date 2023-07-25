@@ -2,14 +2,19 @@ import { Route } from '@angular/router';
 import { AuthGuard } from '@auth0/auth0-angular';
 import { APP_INITIALIZER, makeEnvironmentProviders } from '@angular/core';
 import {
-  addToCart$,
   cartFeature,
   CartService,
   injectCartFeature,
-  loadCart$, modifyCartItem$, provideCartEffects, removeFromCart$,
+  provideCartEffects,
 } from '@shop-project/shop/client/cart/data-access';
 import { provideState } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
+import {
+  loadProduct$,
+  loadProducts$, productDetailsFeature,
+  productsFeature,
+  ProductsService,
+} from '@shop-project/shop/client/products/data-access';
 
 export const shellRoutes = [
   {
@@ -19,6 +24,12 @@ export const shellRoutes = [
         s => s.productsShellRoutes
       ),
     canActivate: [AuthGuard],
+    providers: [
+      ProductsService,
+      provideState(productsFeature),
+      provideState(productDetailsFeature),
+      provideEffects({ loadProducts$, loadProduct$ }),
+    ],
   },
   {
     path: 'cart',

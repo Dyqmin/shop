@@ -3,12 +3,12 @@ import { Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { timer } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 
 @Component({
   standalone: true,
   selector: 'shop-project-error',
-  imports: [AsyncPipe],
+  imports: [AsyncPipe, NgIf],
   template: `
     <div class="container mt-5">
       <ng-container *ngIf="error$ | async as error">
@@ -19,7 +19,7 @@ import { AsyncPipe } from '@angular/common';
           configured correctly.
         </p>
         <div class="alert alert-danger" role="alert">
-          {{ error.error_description }}
+          {{ error.message }}
         </div>
       </ng-container>
     </div>

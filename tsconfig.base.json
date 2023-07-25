@@ -46,6 +46,9 @@
       "@shop-project/shop/client/products/data-access": [
         "libs/shop/client/products/data-access/src/index.ts"
       ],
+      "@shop-project/shop/client/products/feature-product-details": [
+        "libs/shop/client/products/feature-product-details/src/index.ts"
+      ],
       "@shop-project/shop/client/products/feature-products": [
         "libs/shop/client/products/feature-products/src/index.ts"
       ],

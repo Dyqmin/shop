@@ -1,6 +1,6 @@
 import {inject, Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import { map, Observable } from "rxjs";
 import {Product} from "@shop-project/microservices/catalog/types";
 
 @Injectable()
@@ -9,5 +9,11 @@ export class ProductsService {
 
   getProducts(): Observable<Product[]> {
     return this._http.get<Product[]>('http://localhost:3333/api/products');
+  }
+
+  getProduct(id: number): Observable<Product | null> {
+    return this._http.get<Product[]>(`http://localhost:3333/api/products/${id}`).pipe(
+      map((products) => products[0] || null)
+    );
   }
 }
