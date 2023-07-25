@@ -20,6 +20,16 @@ services:
       - '5432:5432'
     volumes:
       - db-catalog:/var/lib/postgresql/data
+  db-orders:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5433:5432'
+    volumes:
+      - db-orders:/var/lib/postgresql/data
   #  db-customers:
   #    image: postgres:14.1-alpine
   #    restart: always
@@ -45,5 +55,5 @@ networks:
 volumes:
   db-catalog:
     driver: local
-#  db-customers:
-#    driver: local
+  db-orders:
+    driver: local
