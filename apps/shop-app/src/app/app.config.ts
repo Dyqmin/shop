@@ -13,6 +13,8 @@ import { AuthHttpInterceptor, AuthModule } from '@auth0/auth0-angular';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideShell } from '@shop-project/shop/client/shell';
+import { provideToastr } from "ngx-toastr";
+import { provideAnimations } from "@angular/platform-browser/animations";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -40,5 +42,9 @@ export const appConfig: ApplicationConfig = {
     provideStore(),
     provideStoreDevtools(),
     provideShell(),
+    provideToastr({
+      positionClass: 'toast-bottom-right'
+    }),
+    provideAnimations(),
   ],
 };

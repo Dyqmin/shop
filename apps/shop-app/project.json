@@ -16,7 +16,7 @@
         "polyfills": ["zone.js"],
         "tsConfig": "apps/shop-app/tsconfig.app.json",
         "assets": ["apps/shop-app/src/favicon.ico", "apps/shop-app/src/assets"],
-        "styles": ["apps/shop-app/src/styles.scss"],
+        "styles": ["apps/shop-app/src/styles.scss", "node_modules/ngx-toastr/toastr.css" ],
         "scripts": []
       },
       "configurations": {
