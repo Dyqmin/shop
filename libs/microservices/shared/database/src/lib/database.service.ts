@@ -6,14 +6,11 @@ import { DRIZZLE_DB_CONFIG, DrizzleDatabaseConfig } from './database.config';
 @Injectable()
 export class DatabaseService implements OnModuleInit {
   private _pool?: Pool;
-  private readonly _drizzleDbConfig: DrizzleDatabaseConfig;
 
-  constructor(@Inject(DRIZZLE_DB_CONFIG) drizzleConfig: DrizzleDatabaseConfig) {
-    this._drizzleDbConfig = drizzleConfig;
-  }
+  constructor(@Inject(DRIZZLE_DB_CONFIG) private readonly _drizzleConfig: DrizzleDatabaseConfig) {}
 
   onModuleInit(): void {
-    const { port, user, password, host } = this._drizzleDbConfig;
+    const { port, user, password, host } = this._drizzleConfig;
 
     try {
       this._pool = new Pool({
