@@ -23,6 +23,14 @@ export class DatabaseService implements OnModuleInit {
   }
 
   get db(): NodePgDatabase {
+    if (!this._pool) {
+      throw 'No pool connection!'
+    }
     return drizzle(this._pool);
+  }
+
+  getDb<TSchema extends Record<string, unknown> = Record<string, never>>(schema?: TSchema): NodePgDatabase<TSchema> {
+    if (!this._pool) throw 'No pool connection!';
+    return drizzle(this._pool, { schema });
   }
 }
