@@ -37,6 +37,9 @@
       "@shop-project/microservices/shared/database": [
         "libs/microservices/shared/database/src/index.ts"
       ],
+      "@shop-project/microservices/shared/event-bus": [
+        "libs/microservices/shared/event-bus/src/index.ts"
+      ],
       "@shop-project/shop/client/cart/data-access": [
         "libs/shop/client/cart/data-access/src/index.ts"
       ],

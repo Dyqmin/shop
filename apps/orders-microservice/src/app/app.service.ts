@@ -8,10 +8,12 @@ import { NewLineItem, NewOrder } from '@shop-project/microservices/orders/types'
 import { DatabaseService } from '@shop-project/microservices/shared/database';
 import { eq } from 'drizzle-orm';
 import { Injectable } from '@nestjs/common';
+import { AmqpConnection } from "@golevelup/nestjs-rabbitmq";
+import { ProductsOrderedEventData } from "@shop-project/microservices/shared/event-bus";
 
 @Injectable()
 export class AppService {
-  constructor(private readonly _db: DatabaseService) {}
+  constructor(private readonly _db: DatabaseService, private readonly amqpConnection: AmqpConnection) {}
 
   async insertOrder(order: NewOrder) {
     try {
@@ -23,6 +25,8 @@ export class AppService {
   }
 
   async insertLineItems(lineItems: NewLineItem[]) {
+    this.amqpConnection.publish<ProductsOrderedEventData>('event-exchange', 'products-ordered', { lineItems });
+
     try {
       return await this._db.db.insert(orderLineItems).values(lineItems).returning().catch();
     } catch (err) {

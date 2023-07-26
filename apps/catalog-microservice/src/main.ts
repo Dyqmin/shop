@@ -18,7 +18,6 @@ async function bootstrap() {
         queue: 'products_queue',
         queueOptions: {
           durable: false,
-
         },
       },
     },

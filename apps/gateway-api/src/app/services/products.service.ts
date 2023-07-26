@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { NewProduct, Product } from '@shop-project/microservices/catalog/types';
+import { LineItemPayload } from "@shop-project/microservices/orders/types";
 
 @Injectable()
 export class ProductsService {
@@ -20,5 +21,9 @@ export class ProductsService {
 
   insertProduct(product: NewProduct) {
     return this.c.send<Product, { product: NewProduct }>({ cmd: 'insertProduct' }, { product });
+  }
+
+  checkProductsAvailability(lineItemPayload: LineItemPayload) {
+    return this.c.send<boolean, { products: LineItemPayload }>({ cmd: 'checkProductsAvailability' }, { products: lineItemPayload });
   }
 }

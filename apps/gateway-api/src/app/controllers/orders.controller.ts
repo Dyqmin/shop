@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Param, Post } from '@nestjs/common';
 import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
   insertOrderWithLineItemsDtoSchema,
@@ -7,7 +7,7 @@ import {
   orderWithLineItems,
 } from '@shop-project/microservices/orders/types';
 import { zodToOpenAPI } from 'nestjs-zod';
-import { combineLatest, map, of, switchMap } from 'rxjs';
+import { combineLatest, iif, map, of, switchMap, throwError } from 'rxjs';
 import { OrdersService } from '../services/orders.service';
 import { ProductsService } from '../services/products.service';
 
@@ -35,7 +35,7 @@ export class OrdersController {
   insertProducts(@Body() orderDto: NewOrderDto) {
     const productIds = orderDto.lineItems.map(lineItem => lineItem.productId);
 
-    return this._ordersService.insertOrder(orderDto.order).pipe(
+    const insertOrder$ = this._ordersService.insertOrder(orderDto.order).pipe(
       switchMap(order =>
         combineLatest([
           of(order),
@@ -59,6 +59,16 @@ export class OrdersController {
         ])
       ),
       map(([order, lineItems]) => ({ ...order, lineItems }))
+    );
+
+    return this._productsService.checkProductsAvailability(orderDto.lineItems).pipe(
+      switchMap(resp =>
+        iif(
+          () => resp,
+          insertOrder$,
+          throwError(() => new HttpException('Not enough products!', HttpStatus.FORBIDDEN))
+        )
+      )
     );
   }
 }

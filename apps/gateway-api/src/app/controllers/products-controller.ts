@@ -9,6 +9,7 @@ import {
 import { zodToOpenAPI } from 'nestjs-zod';
 import { Auth0Guard } from '@shop-project/api/auth';
 import { ProductsService } from '../services/products.service';
+import { LineItemPayload, lineItemPayloadSchema } from "@shop-project/microservices/orders/types";
 
 @Controller('products')
 @ApiTags('products')
@@ -35,6 +36,14 @@ export class ProductsController {
   })
   getProduct(@Param('id') id: number) {
     return this.productsService.getProduct(id);
+  }
+
+  @Post('availability')
+  @ApiBody({
+    schema: zodToOpenAPI(lineItemPayloadSchema),
+  })
+  checkProductsAvailability(@Body() body: LineItemPayload) {
+    return this.productsService.checkProductsAvailability(body);
   }
 
   @Post()
