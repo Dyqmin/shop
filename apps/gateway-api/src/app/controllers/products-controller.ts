@@ -1,15 +1,6 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Inject,
-  Param,
-  Post,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 
-import { ClientProxy } from '@nestjs/microservices';
-import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { NewProduct } from '@shop-project/microservices/catalog/types';
 import {
   insertProductsSchema,
@@ -17,19 +8,25 @@ import {
 } from '@shop-project/microservices/catalog/schema';
 import { zodToOpenAPI } from 'nestjs-zod';
 import { Auth0Guard } from '@shop-project/api/auth';
+import { ProductsService } from '../services/products.service';
 
 @Controller('products')
 @ApiTags('products')
 export class ProductsController {
-  constructor(@Inject('PRODUCTS_SERVICE') private readonly c: ClientProxy) {}
+  constructor(private readonly productsService: ProductsService) {}
 
   @Get()
   @ApiResponse({
     schema: zodToOpenAPI(selectProductsSchema),
   })
-  @UseGuards(Auth0Guard)
-  getProducts() {
-    return this.c.send({ cmd: 'getProducts' }, {});
+  @ApiQuery({ name: 'ids', required: false, type: String })
+  // @UseGuards(Auth0Guard)
+  getProducts(@Query('ids') ids?: string) {
+    if (ids) {
+      const parsedIds = ids.split(',').map(Number);
+      return this.productsService.getProductsByIds(parsedIds);
+    }
+    return this.productsService.getProducts();
   }
 
   @Get(':id')
@@ -37,7 +34,7 @@ export class ProductsController {
     schema: zodToOpenAPI(selectProductsSchema),
   })
   getProduct(@Param('id') id: number) {
-    return this.c.send({ cmd: 'getProduct' }, { id });
+    return this.productsService.getProduct(id);
   }
 
   @Post()
@@ -45,6 +42,6 @@ export class ProductsController {
     schema: zodToOpenAPI(insertProductsSchema),
   })
   insertProducts(@Body() product: NewProduct) {
-    return this.c.send({ cmd: 'insertProducts' }, { product });
+    return this.productsService.insertProduct(product);
   }
 }

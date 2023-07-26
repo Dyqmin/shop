@@ -17,7 +17,7 @@ import { ButtonComponent } from '@shop-project/shop/client/shared/ui';
         [value]="cartItem.quantity"
         [disabled]="disabled"
         (change)="quantityChange.emit(+qty.value)" />
-      <shop-project-button type="danger" [disabled]="disabled" (click)="remove.emit()">
+      <shop-project-button type="danger" [disabled]="disabled" (btnClick)="remove.emit()">
         Usuń
       </shop-project-button>
     </div>

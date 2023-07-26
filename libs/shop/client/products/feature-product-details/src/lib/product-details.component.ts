@@ -19,7 +19,7 @@ import { ButtonComponent } from "@shop-project/shop/client/shared/ui";
 
           <div class="flex justify-between border-t-2 mt-2 pt-2">
             <span class="text-2xl">{{product.price}} PLN</span>
-            <shop-project-button (click)="onAddToCart()">
+            <shop-project-button (btnClick)="onAddToCart()">
               Dodaj do koszyka
             </shop-project-button>
           </div>
@@ -38,6 +38,7 @@ export class ProductDetailsComponent {
   cartFeature = injectCartFeature();
 
   onAddToCart() {
+    console.log('asdasda');
     const product = this.productsFeature.product();
     if (product) {
       this.cartFeature.addToCart({

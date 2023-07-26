@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRedis } from '@liaoliaots/nestjs-redis';
 import Redis from 'ioredis';
+import { CartItem } from "@shop-project/microservices/cart/types";
 
 @Injectable()
 export class AppService {
@@ -32,7 +33,7 @@ export class AppService {
 
   async getCart(id: string) {
     const cartItems = await this.redis.hgetall(`cart:${id}`);
-    const result = [];
+    const result: CartItem[] = [];
     Object.entries(cartItems).forEach(([k, v]) => {
       const parsed = JSON.parse(v);
       result.push({

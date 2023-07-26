@@ -16,7 +16,7 @@ import { ButtonComponent } from "@shop-project/shop/client/shared/ui";
       </a>
       <div class="flex justify-between w-full items-center mt-2">
         <span>{{ product.price }} PLN</span>
-        <shop-project-button (click)="addItemToCart.emit(product)">
+        <shop-project-button (btnClick)="addItemToCart.emit(product)">
           Dodaj
         </shop-project-button>
       </div>

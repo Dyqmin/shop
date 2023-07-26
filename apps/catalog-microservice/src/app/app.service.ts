@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import {NewProduct, Product} from "@shop-project/microservices/catalog/types";
-import {products} from "@shop-project/microservices/catalog/schema";
-import {DatabaseService} from "@shop-project/microservices/shared/database";
-import {eq} from "drizzle-orm";
+import { NewProduct, Product } from '@shop-project/microservices/catalog/types';
+import { products } from '@shop-project/microservices/catalog/schema';
+import { DatabaseService } from '@shop-project/microservices/shared/database';
+import { eq, inArray } from 'drizzle-orm';
 
 @Injectable()
 export class AppService {
@@ -22,5 +22,9 @@ export class AppService {
     } catch (err) {
       return err;
     }
+  }
+
+  getProductsByIds(ids: number[]) {
+    return this._db.db.select().from(products).where(inArray(products.id, ids));
   }
 }
