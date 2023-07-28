@@ -48,6 +48,20 @@
       ],
       "@shop-project/shop/client/cart/shell": ["libs/shop/client/cart/shell/src/index.ts"],
       "@shop-project/shop/client/cart/ui": ["libs/shop/client/cart/ui/src/index.ts"],
+      "@shop-project/shop/client/orders/data-access": [
+        "libs/shop/client/orders/data-access/src/index.ts"
+      ],
+      "@shop-project/shop/client/orders/feature-create-order": [
+        "libs/shop/client/orders/feature-create-order/src/index.ts"
+      ],
+      "@shop-project/shop/client/orders/feature-order-details": [
+        "libs/shop/client/orders/feature-order-details/src/index.ts"
+      ],
+      "@shop-project/shop/client/orders/feature-orders": [
+        "libs/shop/client/orders/feature-orders/src/index.ts"
+      ],
+      "@shop-project/shop/client/orders/shell": ["libs/shop/client/orders/shell/src/index.ts"],
+      "@shop-project/shop/client/orders/ui": ["libs/shop/client/orders/ui/src/index.ts"],
       "@shop-project/shop/client/products/data-access": [
         "libs/shop/client/products/data-access/src/index.ts"
       ],

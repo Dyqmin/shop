@@ -19,7 +19,12 @@ export class AppController {
   }
 
   @MessagePattern({ cmd: 'getOrder' })
-  getProduct(@Payload() data: { id: number }) {
+  getOrder(@Payload() data: { id: number }) {
     return this.appService.getOrder(data.id);
+  }
+
+  @MessagePattern({ cmd: 'getOrders' })
+  getOrders(@Payload() data: { userId: string }) {
+    return this.appService.getOrders(data.userId);
   }
 }

@@ -39,6 +39,14 @@ export const shellRoutes = [
       ),
     canActivate: [AuthGuard],
   },
+  {
+    path: 'orders',
+    loadChildren: () =>
+      import('@shop-project/shop/client/orders/shell').then(
+        s => s.ordersRoutes
+      ),
+    canActivate: [AuthGuard],
+  },
 ] as Route[];
 
 export const provideShell = () =>

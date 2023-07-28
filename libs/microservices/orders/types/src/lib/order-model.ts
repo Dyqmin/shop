@@ -26,4 +26,3 @@ export type LineItemPayload = z.infer<typeof lineItemPayloadSchema>;
 export type Order = z.infer<typeof selectOrdersSchema>;
 export type LineItem = z.infer<typeof selectLineItemsSchema>;
 export type OrderWithLineItem = z.infer<typeof orderWithLineItems>;
-

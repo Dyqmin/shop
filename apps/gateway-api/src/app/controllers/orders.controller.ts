@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, UseGuards } from '@nestjs/common';
 import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
   insertOrderWithLineItemsDtoSchema,
@@ -10,6 +10,7 @@ import { zodToOpenAPI } from 'nestjs-zod';
 import { combineLatest, iif, map, of, switchMap, throwError } from 'rxjs';
 import { OrdersService } from '../services/orders.service';
 import { ProductsService } from '../services/products.service';
+import { Auth0Guard, User } from "@shop-project/api/auth";
 
 @Controller('orders')
 @ApiTags('orders')
@@ -18,6 +19,15 @@ export class OrdersController {
     private readonly _ordersService: OrdersService,
     private readonly _productsService: ProductsService
   ) {}
+
+  @Get()
+  @ApiResponse({
+    schema: zodToOpenAPI(orderWithLineItems),
+  })
+  @UseGuards(Auth0Guard)
+  getOrders(@User() user: User) {
+    return this._ordersService.getOrders(user.sub);
+  }
 
   @Get(':id')
   @ApiResponse({

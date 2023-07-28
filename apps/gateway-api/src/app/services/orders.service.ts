@@ -6,6 +6,10 @@ import { LineItem, NewLineItem, NewOrder, Order, OrderWithLineItem } from "@shop
 export class OrdersService {
   constructor(@Inject('ORDERS_SERVICE') private readonly c: ClientProxy) {}
 
+  getOrders(userId: string) {
+    return this.c.send<Order[], { userId: string }>({ cmd: 'getOrders' }, { userId });
+  }
+
   getOrder(id: number) {
     return this.c.send<OrderWithLineItem>({ cmd: 'getOrder' }, { id });
   }

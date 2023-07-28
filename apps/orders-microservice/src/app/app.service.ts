@@ -42,4 +42,8 @@ export class AppService {
       }
     });
   }
+
+  getOrders(userId: string) {
+    return this._db.db.select().from(orders).where(eq(orders.customerId, userId));
+  }
 }
