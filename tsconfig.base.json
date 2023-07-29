@@ -74,6 +74,9 @@
       "@shop-project/shop/client/products/shell": ["libs/shop/client/products/shell/src/index.ts"],
       "@shop-project/shop/client/products/ui": ["libs/shop/client/products/ui/src/index.ts"],
       "@shop-project/shop/client/shared/ui": ["libs/shop/client/shared/ui/src/index.ts"],
+      "@shop-project/shop/client/shared/ui-customer-form": [
+        "libs/shop/client/shared/ui-customer-form/src/index.ts"
+      ],
       "@shop-project/shop/client/shell": ["libs/shop/client/shell/src/index.ts"],
       "@shop-project/shop/client/ui": ["libs/shop/client/ui/src/index.ts"]
     }

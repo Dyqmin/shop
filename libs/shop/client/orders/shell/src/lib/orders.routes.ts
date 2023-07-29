@@ -28,7 +28,12 @@ export const ordersRoutes = [
         resolve: [
           resolveOrders
         ],
+        pathMatch: 'full',
         loadComponent: () => import('@shop-project/shop/client/orders/feature-orders').then(m => m.OrdersListComponent),
+      },
+      {
+        path: 'create-order',
+        loadComponent: () => import('@shop-project/shop/client/orders/feature-create-order').then(m => m.CreateOrderComponent),
       },
       {
         resolve: [
@@ -37,10 +42,6 @@ export const ordersRoutes = [
         path: ':orderId',
         loadComponent: () => import('@shop-project/shop/client/orders/feature-order-details').then(m => m.OrderDetailsComponent),
       },
-      {
-        path: 'create-order',
-        loadComponent: () => import('@shop-project/shop/client/orders/feature-create-order').then(m => m.CreateOrderComponent),
-      }
     ],
   },
 ] as Route[];

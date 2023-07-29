@@ -1,7 +1,7 @@
-import { inject, Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
-import { Order, OrderWithLineItem } from "@shop-project/microservices/orders/types";
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { NewOrderDto, Order, OrderWithLineItem } from '@shop-project/microservices/orders/types';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class OrdersService {
@@ -13,5 +13,9 @@ export class OrdersService {
 
   getOrder(id: number): Observable<OrderWithLineItem> {
     return this._http.get<OrderWithLineItem>(`http://localhost:3333/api/orders/${id}`);
+  }
+
+  createOrder(orderDto: NewOrderDto): Observable<OrderWithLineItem> {
+    return this._http.post<OrderWithLineItem>(`http://localhost:3333/api/orders`, orderDto);
   }
 }

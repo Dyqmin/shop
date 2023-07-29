@@ -1,6 +1,7 @@
+import { NgIf } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { CartItem } from '@shop-project/microservices/cart/types';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CartItem } from '@shop-project/microservices/cart/types';
 import { ButtonComponent } from '@shop-project/shop/client/shared/ui';
 
 @Component({
@@ -12,21 +13,30 @@ import { ButtonComponent } from '@shop-project/shop/client/shared/ui';
       <span>{{ cartItem.product.price }}</span>
       <input
         #qty
+        *ngIf="isEditable; else staticQty"
         class="border-b-gray-300 border-2 rounded-md p-2 w-16"
         type="number"
         [value]="cartItem.quantity"
-        [disabled]="disabled"
+        [disabled]="disabled || !isEditable"
         (change)="quantityChange.emit(+qty.value)" />
-      <shop-project-button type="danger" [disabled]="disabled" (btnClick)="remove.emit()">
+      <ng-template #staticQty>
+        <span>{{ cartItem.quantity }}</span>
+      </ng-template>
+      <shop-project-button
+        *ngIf="isEditable"
+        type="danger"
+        [disabled]="disabled"
+        (btnClick)="remove.emit()">
         Usuń
       </shop-project-button>
     </div>
   `,
-  imports: [ReactiveFormsModule, ButtonComponent],
+  imports: [ReactiveFormsModule, ButtonComponent, NgIf],
 })
 export class CartItemComponent {
   @Input({ required: true }) cartItem!: CartItem;
   @Input() disabled = false;
+  @Input() isEditable = false;
   @Output() quantityChange = new EventEmitter<number>();
   @Output() remove = new EventEmitter<void>();
 }
