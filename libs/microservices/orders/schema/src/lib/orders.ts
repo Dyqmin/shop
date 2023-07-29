@@ -15,8 +15,16 @@ export const orders = pgTable('orders', {
   totalAmount: decimal('total_amount').notNull(),
 });
 
-export const ordersRelations = relations(orders, ({ many }) => ({
+export const ordersRelations = relations(orders, ({ many, one }) => ({
   orderLineItems: many(orderLineItems),
+  orderCustomers: one(orderCustomers, {
+    fields: [orders.id],
+    references: [orderCustomers.orderId],
+  }),
+  orderShipments: one(orderShipments, {
+    fields: [orders.id],
+    references: [orderShipments.orderId],
+  }),
 }));
 
 export const orderCustomers = pgTable('order_customers', {
@@ -31,13 +39,6 @@ export const orderCustomers = pgTable('order_customers', {
   taxNumber: varchar('tax_number'),
 });
 
-export const ordersCustomerRelations = relations(orders, ({ one }) => ({
-  orderCustomers: one(orderCustomers, {
-    fields: [orders.id],
-    references: [orderCustomers.orderId],
-  }),
-}));
-
 export const orderShipments = pgTable('order_shipments', {
   orderId: integer('order_id')
     .notNull()
@@ -48,13 +49,6 @@ export const orderShipments = pgTable('order_shipments', {
   zipCode: varchar('zip_code').notNull(),
   phone: varchar('phone').notNull(),
 });
-
-export const ordersShipmentsRelations = relations(orders, ({ one }) => ({
-  orderShipments: one(orderShipments, {
-    fields: [orders.id],
-    references: [orderShipments.orderId],
-  }),
-}));
 
 export const orderLineItems = pgTable('order_line_items', {
   id: serial('id').primaryKey(),

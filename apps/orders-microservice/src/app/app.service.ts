@@ -74,11 +74,13 @@ export class AppService {
 
   getOrder(id: number) {
     return this._db
-      .getDb({ orders, orderLineItems, ordersRelations, orderLineItemsRelations })
+      .getDb({ orders, orderLineItems, ordersRelations, orderLineItemsRelations, orderCustomers, orderShipments })
       .query.orders.findFirst({
         where: eq(orders.id, id),
         with: {
           orderLineItems: true,
+          orderShipments: true,
+          orderCustomers: true,
         },
       });
   }
