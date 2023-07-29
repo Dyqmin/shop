@@ -1,6 +1,16 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { LineItem, NewLineItem, NewOrder, Order, OrderWithLineItem } from "@shop-project/microservices/orders/types";
+import {
+  LineItem,
+  NewCustomer,
+  NewLineItem,
+  NewOrder,
+  NewShipment,
+  Order,
+  OrderCustomer,
+  OrderShipment,
+  OrderWithLineItem,
+} from '@shop-project/microservices/orders/types';
 
 @Injectable()
 export class OrdersService {
@@ -19,6 +29,23 @@ export class OrdersService {
   }
 
   insertLineItems(lineItems: NewLineItem[]) {
-    return this.c.send<LineItem, { lineItems: NewLineItem[] }>({ cmd: 'insertLineItems' }, { lineItems });
+    return this.c.send<LineItem, { lineItems: NewLineItem[] }>(
+      { cmd: 'insertLineItems' },
+      { lineItems }
+    );
+  }
+
+  insertCustomer(newCustomer: NewCustomer) {
+    return this.c.send<OrderCustomer, { newCustomer: NewCustomer }>(
+      { cmd: 'insertCustomer' },
+      { newCustomer }
+    );
+  }
+
+  insertShipment(newShipment: NewShipment) {
+    return this.c.send<OrderShipment, { newShipment: NewShipment }>(
+      { cmd: 'insertShipment' },
+      { newShipment }
+    );
   }
 }

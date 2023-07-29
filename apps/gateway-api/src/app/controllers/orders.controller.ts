@@ -1,5 +1,15 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpException,
+  HttpStatus,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Auth0Guard, User } from '@shop-project/api/auth';
 import {
   insertOrderWithLineItemsDtoSchema,
   NewLineItem,
@@ -10,7 +20,6 @@ import { zodToOpenAPI } from 'nestjs-zod';
 import { combineLatest, iif, map, of, switchMap, throwError } from 'rxjs';
 import { OrdersService } from '../services/orders.service';
 import { ProductsService } from '../services/products.service';
-import { Auth0Guard, User } from "@shop-project/api/auth";
 
 @Controller('orders')
 @ApiTags('orders')
@@ -66,9 +75,17 @@ export class OrdersController {
               return this._ordersService.insertLineItems(lineItems);
             })
           ),
+          this._ordersService.insertCustomer({
+            ...orderDto.customer,
+            orderId: order.id,
+          }),
+          this._ordersService.insertShipment({
+            ...orderDto.shipment,
+            orderId: order.id,
+          }),
         ])
       ),
-      map(([order, lineItems]) => ({ ...order, lineItems }))
+      map(([order, lineItems, customer, shipment]) => ({ ...order, lineItems, customer, shipment }))
     );
 
     return this._productsService.checkProductsAvailability(orderDto.lineItems).pipe(
