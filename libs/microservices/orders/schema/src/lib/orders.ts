@@ -19,6 +19,43 @@ export const ordersRelations = relations(orders, ({ many }) => ({
   orderLineItems: many(orderLineItems),
 }));
 
+export const orderCustomers = pgTable('order_customers', {
+  orderId: integer('order_id')
+  .notNull()
+  .references(() => orders.id),
+  name: varchar('name').notNull(),
+  street: varchar('street').notNull(),
+  city: varchar('city').notNull(),
+  zipCode: varchar('zip_code').notNull(),
+  phone: varchar('phone'),
+  taxNumber: varchar('tax_number'),
+});
+
+export const ordersCustomerRelations = relations(orders, ({ one }) => ({
+  orderCustomers: one(orderCustomers, {
+    fields: [orders.id],
+    references: [orderCustomers.orderId],
+  }),
+}));
+
+export const orderShipments = pgTable('order_shipments', {
+  orderId: integer('order_id')
+    .notNull()
+    .references(() => orders.id),
+  name: varchar('name').notNull(),
+  street: varchar('street').notNull(),
+  city: varchar('city').notNull(),
+  zipCode: varchar('zip_code').notNull(),
+  phone: varchar('phone').notNull(),
+});
+
+export const ordersShipmentsRelations = relations(orders, ({ one }) => ({
+  orderShipments: one(orderShipments, {
+    fields: [orders.id],
+    references: [orderShipments.orderId],
+  }),
+}));
+
 export const orderLineItems = pgTable('order_line_items', {
   id: serial('id').primaryKey(),
   orderId: integer('order_id')

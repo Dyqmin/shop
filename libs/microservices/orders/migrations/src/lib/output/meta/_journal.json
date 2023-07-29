@@ -8,6 +8,13 @@
       "when": 1690317219897,
       "tag": "0000_ordinary_gamora",
       "breakpoints": false
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1690656455951,
+      "tag": "0001_past_galactus",
+      "breakpoints": false
     }
   ]
 }
