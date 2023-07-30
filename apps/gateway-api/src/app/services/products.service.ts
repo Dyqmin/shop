@@ -1,29 +1,55 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
+import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
+import { Injectable } from '@nestjs/common';
 import { NewProduct, Product } from '@shop-project/microservices/catalog/types';
-import { LineItemPayload } from "@shop-project/microservices/orders/types";
+import { LineItemPayload } from '@shop-project/microservices/orders/types';
+import { fromPromise } from 'rxjs/internal/observable/innerFrom';
 
 @Injectable()
 export class ProductsService {
-  constructor(@Inject('PRODUCTS_SERVICE') private readonly c: ClientProxy) {}
+  constructor(private readonly amqpConnection: AmqpConnection) {}
 
   getProduct(id: number) {
-    return this.c.send<Product[], { id: number }>({ cmd: 'getProduct' }, { id });
+    return this.amqpConnection.request<Product>({
+      exchange: 'event-exchange',
+      routingKey: 'get-product',
+      payload: { id },
+    });
   }
 
   getProducts() {
-    return this.c.send<Product[]>({ cmd: 'getProducts' }, {});
+    return this.amqpConnection.request<Product[]>({
+      exchange: 'event-exchange',
+      routingKey: 'get-products',
+    });
   }
 
   getProductsByIds(ids: number[]) {
-    return this.c.send<Product[], { ids: number[] }>({ cmd: 'getProductsByIds' }, { ids });
+    return fromPromise(
+      this.amqpConnection.request<Product[]>({
+        exchange: 'event-exchange',
+        routingKey: 'get-products-by-ids',
+        payload: { ids },
+      })
+    );
   }
 
   insertProduct(product: NewProduct) {
-    return this.c.send<Product, { product: NewProduct }>({ cmd: 'insertProduct' }, { product });
+    return fromPromise(
+      this.amqpConnection.request<Product>({
+        exchange: 'event-exchange',
+        routingKey: 'insert-product',
+        payload: { product },
+      })
+    );
   }
 
   checkProductsAvailability(lineItemPayload: LineItemPayload) {
-    return this.c.send<boolean, { products: LineItemPayload }>({ cmd: 'checkProductsAvailability' }, { products: lineItemPayload });
+    return fromPromise(
+      this.amqpConnection.request<boolean>({
+        exchange: 'event-exchange',
+        routingKey: 'are-products-available',
+        payload: { products: lineItemPayload },
+      })
+    );
   }
 }

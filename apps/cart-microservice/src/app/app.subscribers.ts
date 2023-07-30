@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { RabbitSubscribe } from "@golevelup/nestjs-rabbitmq";
+import { RabbitRPC, RabbitSubscribe } from "@golevelup/nestjs-rabbitmq";
 import { OrderCreatedEventData } from "@shop-project/microservices/shared/event-bus";
 import { AppService } from "./app.service";
 

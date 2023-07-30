@@ -7,6 +7,7 @@ import { CartController } from './controllers/cart.controller';
 import { OrdersController } from './controllers/orders.controller';
 import { ProductsService } from './services/products.service';
 import { OrdersService } from './services/orders.service';
+import { MicroservicesSharedEventBusModule } from "@shop-project/microservices/shared/event-bus";
 
 @Module({
   imports: [
@@ -24,17 +25,6 @@ import { OrdersService } from './services/orders.service';
         },
       },
       {
-        name: 'PRODUCTS_SERVICE',
-        transport: Transport.RMQ,
-        options: {
-          urls: ['amqp://localhost:5672'],
-          queue: 'products_queue',
-          queueOptions: {
-            durable: false,
-          },
-        },
-      },
-      {
         name: 'ORDERS_SERVICE',
         transport: Transport.RMQ,
         options: {
@@ -46,6 +36,7 @@ import { OrdersService } from './services/orders.service';
         },
       },
     ]),
+    MicroservicesSharedEventBusModule,
   ],
   controllers: [ProductsController, CartController, OrdersController],
   providers: [ProductsService, OrdersService],
