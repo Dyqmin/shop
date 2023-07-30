@@ -1,9 +1,9 @@
 import { createReducer, on } from '@ngrx/store';
-import { OrderWithLineItem } from "@shop-project/microservices/orders/types";
+import { OrderView } from "@shop-project/microservices/orders/types";
 import { OrderDetailsActions } from "./order-details.actions";
 
 export interface OrderDetailsState {
-  order: OrderWithLineItem | null;
+  order: OrderView | null;
 }
 
 const initialState: OrderDetailsState = {
