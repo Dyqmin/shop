@@ -11,7 +11,7 @@ export class AppSubscribers {
   @RabbitSubscribe({
     exchange: 'event-exchange',
     routingKey: 'products-ordered',
-    queue: 'event-bus',
+    queue: 'event-bus-products',
   })
   handleProductsOrdered(data: ProductsOrderedEventData) {
     try {

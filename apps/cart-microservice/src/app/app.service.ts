@@ -1,7 +1,7 @@
-import { Injectable } from '@nestjs/common';
 import { InjectRedis } from '@liaoliaots/nestjs-redis';
+import { Injectable } from '@nestjs/common';
+import { CartItem } from '@shop-project/microservices/cart/types';
 import Redis from 'ioredis';
-import { CartItem } from "@shop-project/microservices/cart/types";
 
 @Injectable()
 export class AppService {
@@ -42,5 +42,12 @@ export class AppService {
       });
     });
     return result || [];
+  }
+
+  async clearCart(id: string) {
+    const cartItems = await this.redis.hgetall(`cart:${id}`);
+    Object.keys(cartItems).forEach(field => {
+      this.redis.hdel(`cart:${id}`, field);
+    });
   }
 }
