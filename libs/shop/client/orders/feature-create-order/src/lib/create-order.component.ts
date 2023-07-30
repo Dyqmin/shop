@@ -1,11 +1,21 @@
-import { NgIf } from '@angular/common';
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { NgClass, NgIf } from '@angular/common';
+import { Component, DestroyRef, effect, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AuthService } from '@auth0/auth0-angular';
+import {
+  AbstractControl,
+  Form,
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  NonNullableFormBuilder,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { NewCustomerPayload, NewShipmentPayload } from '@shop-project/microservices/orders/types';
 import { injectCartFeature } from '@shop-project/shop/client/cart/data-access';
 import { CartPreviewComponent } from '@shop-project/shop/client/cart/ui';
-import { OrdersService } from '@shop-project/shop/client/orders/data-access';
+import { injectOrdersFeature, OrdersService } from '@shop-project/shop/client/orders/data-access';
 import { ButtonComponent } from '@shop-project/shop/client/shared/ui';
 import { CustomerFormComponent } from '@shop-project/shop/client/shared/ui-customer-form';
 import { startWith, tap } from 'rxjs';
@@ -21,24 +31,49 @@ import { startWith, tap } from 'rxjs';
 
     Suma zamówienia {{ cartFeature.fullPrice() }} PLN
 
-    <form [formGroup]="shipmentForm" class="grid gap-4">
-      <span class="text-xl mt-2">Dane do faktury</span>
-      <shop-project-customer-form [form]="shipmentForm.controls.customer" />
-
-      <div class="flex items-center">
-        <label for="shipmentSameAsCustomer" class="mr-2">
-          Dane do wysyłki takie same jak do faktury
-        </label>
-        <input
-          type="checkbox"
-          id="shipmentSameAsCustomer"
-          formControlName="shipmentSameAsCustomer" />
+    <div>
+      <span class="text-2xl block">Kupujesz jako</span>
+      <div
+        [ngClass]="{ 'border-green-600': !isCompany() }"
+        class=" inline-block p-2 border-2 rounded-md mr-2"
+        (click)="isCompany.set(false)">
+        Osoba Fizyczna
       </div>
+      <div
+        [ngClass]="{ 'border-green-600': isCompany() }"
+        class="inline-block p-2 border-2 rounded-md"
+        (click)="isCompany.set(true)">
+        Firma
+      </div>
+    </div>
 
-      <ng-container *ngIf="!shipmentForm.value.shipmentSameAsCustomer">
+    <form [formGroup]="shipmentForm" class="grid gap-4">
+      <ng-container *ngIf="!isCompany(); else companyForm">
+        <span class="text-xl mt-2">Dane do faktury</span>
+        <shop-project-customer-form [form]="shipmentForm.controls.customer" />
+
+        <div class="flex items-center">
+          <label for="shipmentSameAsCustomer" class="mr-2">
+            Dane do wysyłki takie same jak do faktury
+          </label>
+          <input
+            type="checkbox"
+            id="shipmentSameAsCustomer"
+            formControlName="shipmentSameAsCustomer" />
+        </div>
+
+        <ng-container *ngIf="!shipmentForm.value.shipmentSameAsCustomer">
+          <span class="text-xl mt-2">Dane do wysyłki</span>
+          <shop-project-customer-form [form]="shipmentForm.controls.shipment" />
+        </ng-container>
+      </ng-container>
+
+      <ng-template #companyForm>
+        <span class="text-xl mt-2">Dane do faktury</span>
+        <shop-project-customer-form [form]="shipmentForm.controls.customer" [isCompany]="true" />
         <span class="text-xl mt-2">Dane do wysyłki</span>
         <shop-project-customer-form [form]="shipmentForm.controls.shipment" />
-      </ng-container>
+      </ng-template>
 
       <shop-project-button (btnClick)="onSubmit()" [disabled]="shipmentForm.invalid"
         >Potwierdź</shop-project-button
@@ -51,19 +86,32 @@ import { startWith, tap } from 'rxjs';
     CartPreviewComponent,
     CustomerFormComponent,
     NgIf,
+    NgClass,
   ],
 })
 export class CreateOrderComponent implements OnInit {
   cartFeature = injectCartFeature();
-  ordersService = inject(OrdersService);
-  authService = inject(AuthService);
+  ordersFeature = injectOrdersFeature();
   destroyRef = inject(DestroyRef);
-  formBuilder = inject(FormBuilder);
-  shipmentForm = this.formBuilder.group({
-    customer: this.createCustomerFormGroup(),
+  isCompany = signal(false);
+  private readonly _fb = inject(NonNullableFormBuilder);
+  shipmentForm = this._fb.group({
+    customer: this.createCustomerFormGroup(true),
     shipment: this.createCustomerFormGroup(),
     shipmentSameAsCustomer: [true],
   });
+
+  constructor() {
+    effect(() => {
+      if (this.isCompany()) {
+        this.shipmentForm.controls.shipment.enable();
+      } else if (!this.isCompany() && !this.shipmentForm.controls.shipmentSameAsCustomer.value) {
+        this.shipmentForm.controls.shipment.enable();
+      } else {
+        this.shipmentForm.controls.shipment.disable();
+      }
+    });
+  }
 
   ngOnInit() {
     this.shipmentForm.controls.shipmentSameAsCustomer.valueChanges
@@ -81,28 +129,40 @@ export class CreateOrderComponent implements OnInit {
       .subscribe();
   }
 
-  private createCustomerFormGroup() {
-    return this.formBuilder.group({
+  private createCustomerFormGroup(withTaxNumber = false) {
+    return this._fb.group({
       name: ['', Validators.required],
       city: ['', Validators.required],
       street: ['', Validators.required],
-      zip: ['', Validators.required],
+      zipCode: ['', Validators.required],
       phone: ['', Validators.required],
+      ...(withTaxNumber && { taxNumber: '' }),
     });
   }
 
   onSubmit() {
-    console.log('submit');
-    // this.ordersService.createOrder({
-    //   order: {
-    //
-    //   },
-    //   lineItems: [
-    //     {
-    //       quantity: 1,
-    //       productId: 1,
-    //     }
-    //   ]
-    // });
+    this.ordersFeature.createOrder({
+      lineItems: this.cartFeature.getAsLineItems(),
+      customer: this.getCustomerFormData(),
+      shipment: this.getShipmentFormData(),
+    });
+  }
+
+  private getCustomerFormData(): NewCustomerPayload {
+    return this.isCompany()
+      ? { ...this.shipmentForm.getRawValue().customer, taxNumber: '' }
+      : this.shipmentForm.getRawValue().customer;
+  }
+
+  private getShipmentFormData(): NewShipmentPayload {
+    return this.shipmentForm.getRawValue().shipmentSameAsCustomer
+      ? {
+          name: this.shipmentForm.getRawValue().customer.name,
+          city: this.shipmentForm.getRawValue().customer.city,
+          zipCode: this.shipmentForm.getRawValue().customer.zipCode,
+          phone: this.shipmentForm.getRawValue().customer.phone,
+          street: this.shipmentForm.getRawValue().customer.street,
+        }
+      : this.shipmentForm.getRawValue().shipment;
   }
 }

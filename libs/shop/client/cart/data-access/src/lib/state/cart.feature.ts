@@ -15,10 +15,13 @@ export const cartFeature = createFeature({
         0
       )
     ),
+    getAsLineItems: createSelector(selectItems, items =>
+      items.map((item) => ({ productId: item.product.id, quantity: item.quantity }))
+    ),
   }),
 });
 
-export const { selectItems, getFullPrice, selectItemsFetching } = cartFeature;
+export const { selectItems, getFullPrice, selectItemsFetching, getAsLineItems } = cartFeature;
 
 export const injectCartFeature = () => {
   const _store = inject(Store);
@@ -26,6 +29,7 @@ export const injectCartFeature = () => {
   return {
     cartItems: _store.selectSignal(selectItems),
     fullPrice: _store.selectSignal(getFullPrice),
+    getAsLineItems: _store.selectSignal(getAsLineItems),
     itemsFetching: _store.selectSignal(selectItemsFetching),
     addToCart: (cartItem: CartItem) =>
       _store.dispatch(CartActions.addProduct({ cartItem })),

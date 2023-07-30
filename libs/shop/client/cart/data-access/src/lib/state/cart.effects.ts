@@ -10,7 +10,7 @@ export const loadCart$ = createEffect(
     const cartService = inject(CartService);
 
     return actions$.pipe(
-      ofType(CartActions.init),
+      ofType(CartActions.init, CartActions.refreshCart),
       exhaustMap(() =>
         cartService
           .getCart()

@@ -23,11 +23,14 @@ export const lineItemPayloadSchema = z.array(
   insertLineItemsSchema.pick({ quantity: true, productId: true })
 );
 
+export const insertOrderShipmentsPayload = insertOrderShipmentsSchema.omit({ orderId: true })
+export const insertOrderCustomersPayload = insertOrderCustomersSchema.omit({ orderId: true })
+
 export const insertOrderWithLineItemsDtoSchema = z.object({
-  order: insertOrderSchema,
+  // order: insertOrderSchema,
   lineItems: lineItemPayloadSchema,
-  shipment: insertOrderShipmentsSchema,
-  customer: insertOrderCustomersSchema,
+  shipment: insertOrderShipmentsPayload,
+  customer: insertOrderCustomersPayload,
 });
 
 export const orderWithLineItems = selectOrdersSchema.merge(
@@ -40,7 +43,9 @@ export type NewLineItem = z.infer<typeof insertLineItemsSchema>;
 export type OrderShipment = z.infer<typeof selectOrderShipmentsSchema>;
 export type OrderCustomer = z.infer<typeof selectOrderCustomersSchema>;
 export type NewCustomer = z.infer<typeof insertOrderCustomersSchema>;
+export type NewCustomerPayload = z.infer<typeof insertOrderCustomersPayload>;
 export type NewShipment = z.infer<typeof insertOrderShipmentsSchema>;
+export type NewShipmentPayload = z.infer<typeof insertOrderShipmentsPayload>;
 export type LineItemPayload = z.infer<typeof lineItemPayloadSchema>;
 export type Order = z.infer<typeof selectOrdersSchema>;
 export type LineItem = z.infer<typeof selectLineItemsSchema>;

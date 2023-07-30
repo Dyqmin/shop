@@ -13,5 +13,6 @@ export const CartActions = createActionGroup({
     'Remove Product Success': props<{ items: CartItem[] }>(),
     'Modify Item': props<{ cartItem: CartItem }>(),
     'Modify Item Success': props<{ items: CartItem[] }>(),
+    'Refresh Cart': emptyProps(),
   },
 });

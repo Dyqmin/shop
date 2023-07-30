@@ -1,6 +1,7 @@
 import { Component, forwardRef, inject, Input } from "@angular/core";
 import { ControlValueAccessor, FormBuilder, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from "@angular/forms";
 import { ButtonComponent } from "@shop-project/shop/client/shared/ui";
+import { NgIf } from "@angular/common";
 
 
 export interface CustomerForm {
@@ -17,7 +18,7 @@ export interface CustomerForm {
   template: `
     <div [formGroup]="form">
       <div class="flex flex-col text-slate-500 text-sm">
-        <label for="name">Imię i nazwisko</label>
+        <label for="name">{{ isCompany ? 'Nazwa firmy' : 'Imię i nazwisko'}}</label>
         <input
           type="text"
           formControlName="name"
@@ -36,7 +37,7 @@ export interface CustomerForm {
 
       <div class="flex flex-col text-slate-500 text-sm">
         <label for="zip">Kod pocztowy</label>
-        <input type="text" formControlName="zip" id="zip" class="border-2 rounded-md p-1 text-xs" />
+        <input type="text" formControlName="zipCode" id="zip" class="border-2 rounded-md p-1 text-xs" />
       </div>
 
       <div class="flex flex-col text-slate-500 text-sm">
@@ -48,7 +49,7 @@ export interface CustomerForm {
           class="border-2 rounded-md p-1 text-xs" />
       </div>
 
-      <div class="flex flex-col text-slate-500 text-sm">
+      <div *ngIf="!isCompany" class="flex flex-col text-slate-500 text-sm">
         <label for="phone">Numer telefonu</label>
         <input
           type="text"
@@ -56,19 +57,22 @@ export interface CustomerForm {
           id="phone"
           class="border-2 rounded-md p-1 text-xs" />
       </div>
+
+      <div *ngIf="isCompany" class="flex flex-col text-slate-500 text-sm">
+        <label for="taxNumber">NIP</label>
+        <input
+          type="text"
+          formControlName="taxNumber"
+          id="taxNumber"
+          class="border-2 rounded-md p-1 text-xs" />
+      </div>
     </div>
   `,
-  providers: [
-    // {
-    //   provide: NG_VALUE_ACCESSOR,
-    //   useExisting: forwardRef(() => CustomerFormComponent),
-    //   multi: true,
-    // },
-  ],
-  imports: [ReactiveFormsModule, ButtonComponent],
+  imports: [ReactiveFormsModule, ButtonComponent, NgIf],
 })
 export class CustomerFormComponent {
   @Input() form!: FormGroup;
+  @Input() isCompany = false;
   private readonly _fb = inject(FormBuilder);
 
   private createCustomerFormGroup() {
