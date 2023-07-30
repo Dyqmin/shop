@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 
-import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { RedisModule } from '@liaoliaots/nestjs-redis';
 import { AppSubscribers } from "./app.subscribers";
@@ -16,7 +15,6 @@ import { MicroservicesSharedEventBusModule } from "@shop-project/microservices/s
     }),
     MicroservicesSharedEventBusModule,
   ],
-  controllers: [AppController],
   providers: [AppService, AppSubscribers],
 })
 export class AppModule {}
