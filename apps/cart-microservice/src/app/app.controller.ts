@@ -12,29 +12,29 @@ import {
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @MessagePattern({ cmd: 'getCart' })
-  getCart(@Payload() data: { id: string }, @Ctx() context: RmqContext) {
-    return this.appService.getCart(data.id);
-  }
+  // @MessagePattern({ cmd: 'getCart' })
+  // getCart(@Payload() data: { id: string }, @Ctx() context: RmqContext) {
+  //   return this.appService.getCart(data.id);
+  // }
 
-  @MessagePattern({ cmd: 'addOrModifyCartItem' })
-  setCart(
-    @Payload() data: { userId: string; productId: number; product: string; quantity: number; },
-    @Ctx() context: RmqContext
-  ) {
-    return this.appService.setCart(data.userId, {
-      [data.productId]: JSON.stringify({
-        product: data.product,
-        quantity: data.quantity,
-      })
-    });
-  }
+  // @MessagePattern({ cmd: 'addOrModifyCartItem' })
+  // setCart(
+  //   @Payload() data: { userId: string; productId: number; product: string; quantity: number; },
+  //   @Ctx() context: RmqContext
+  // ) {
+  //   return this.appService.setCart(data.userId, {
+  //     [data.productId]: JSON.stringify({
+  //       product: data.product,
+  //       quantity: data.quantity,
+  //     })
+  //   });
+  // }
 
-  @MessagePattern({ cmd: 'removeCartItem' })
-  removeItemFromCart(
-    @Payload() data: { userId: string; productId: string; },
-    @Ctx() context: RmqContext
-  ) {
-    return this.appService.removeItem(data.userId, data.productId);
-  }
+  // @MessagePattern({ cmd: 'removeCartItem' })
+  // removeItemFromCart(
+  //   @Payload() data: { userId: string; productId: string; },
+  //   @Ctx() context: RmqContext
+  // ) {
+  //   return this.appService.removeItem(data.userId, data.productId);
+  // }
 }

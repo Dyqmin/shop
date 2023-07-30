@@ -5,7 +5,7 @@ import { AppService } from "./app.service";
 
 @Injectable()
 export class AppSubscribers {
-  constructor(private readonly _appService: AppService) {}
+  constructor(private readonly _cartService: AppService) {}
 
   @RabbitSubscribe({
     exchange: 'event-exchange',
@@ -14,10 +14,42 @@ export class AppSubscribers {
   })
   async handleOrderCreated(data: OrderCreatedEventData) {
     try {
-      await this._appService.clearCart(data.userId);
+      await this._cartService.clearCart(data.userId);
     } catch (e) {
       console.log('Error while processing handleOrderCreated');
       console.log(e);
     }
+  }
+
+  @RabbitRPC({
+    exchange: 'event-exchange',
+    routingKey: 'add-or-modify-cart-item',
+    queue: 'cart-queue',
+  })
+  addOrModify(data: { userId: string; productId: number; product: string; quantity: number; }) {
+    return this._cartService.setCart(data.userId, {
+      [data.productId]: JSON.stringify({
+        product: data.product,
+        quantity: data.quantity,
+      })
+    });
+  }
+
+  @RabbitRPC({
+    exchange: 'event-exchange',
+    routingKey: 'get-cart',
+    queue: 'cart-queue',
+  })
+  getCart(data: { id: string }) {
+    return this._cartService.getCart(data.id);
+  }
+
+  @RabbitRPC({
+    exchange: 'event-exchange',
+    routingKey: 'remove-cart-item',
+    queue: 'cart-queue',
+  })
+  removeCartItem(data: { userId: string; productId: string; }) {
+    return this._cartService.removeItem(data.userId, data.productId);
   }
 }

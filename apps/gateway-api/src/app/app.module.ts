@@ -14,17 +14,6 @@ import { MicroservicesSharedEventBusModule } from "@shop-project/microservices/s
     ApiAuthModule,
     ClientsModule.register([
       {
-        name: 'CART_SERVICE',
-        transport: Transport.RMQ,
-        options: {
-          urls: ['amqp://localhost:5672'],
-          queue: 'cart_queue',
-          queueOptions: {
-            durable: false,
-          },
-        },
-      },
-      {
         name: 'ORDERS_SERVICE',
         transport: Transport.RMQ,
         options: {
