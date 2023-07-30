@@ -7,6 +7,7 @@ import {
 import { InferModel } from 'drizzle-orm';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
+import { selectProductsSchema } from "@shop-project/microservices/catalog/schema";
 
 export type NewOrderLineItem = InferModel<typeof orderLineItems, 'insert'>;
 
@@ -34,7 +35,11 @@ export const insertOrderWithLineItemsDtoSchema = z.object({
 });
 
 export const orderWithLineItems = selectOrdersSchema.merge(
-  z.object({ orderLineItems: z.array(selectLineItemsSchema) })
+  z.object({ orderLineItems: z.array(selectLineItemsSchema), orderCustomers: selectOrderCustomersSchema, orderShipments: selectOrderShipmentsSchema })
+);
+export const lineItemView = selectLineItemsSchema.merge(z.object({ product: selectProductsSchema }));
+export const orderView = selectOrdersSchema.merge(
+  z.object({ orderLineItems: z.array(lineItemView), orderCustomers: selectOrderCustomersSchema, orderShipments: selectOrderShipmentsSchema })
 );
 
 export type NewOrderDto = z.infer<typeof insertOrderWithLineItemsDtoSchema>;
@@ -50,3 +55,5 @@ export type LineItemPayload = z.infer<typeof lineItemPayloadSchema>;
 export type Order = z.infer<typeof selectOrdersSchema>;
 export type LineItem = z.infer<typeof selectLineItemsSchema>;
 export type OrderWithLineItem = z.infer<typeof orderWithLineItems>;
+export type OrderView = z.infer<typeof orderView>;
+export type LineItemView = z.infer<typeof lineItemView>;

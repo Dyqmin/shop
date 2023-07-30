@@ -8,10 +8,11 @@ import {
   NewShipment,
   Order,
   OrderCustomer,
-  OrderShipment,
+  OrderShipment, OrderView,
   OrderWithLineItem,
 } from '@shop-project/microservices/orders/types';
 import { fromPromise } from "rxjs/internal/observable/innerFrom";
+import { Product } from "@shop-project/microservices/catalog/types";
 
 @Injectable()
 export class OrdersService {
@@ -25,12 +26,26 @@ export class OrdersService {
     });
   }
 
-  getOrder(id: number) {
-    return this.amqpConnection.request<OrderWithLineItem>({
+  async getOrder(id: number) {
+    const order = await this.amqpConnection.request<OrderWithLineItem>({
       exchange: 'event-exchange',
       routingKey: 'get-order',
       payload: { id },
     });
+
+    const ids = order.orderLineItems.map((lineItem) => lineItem.productId);
+    const products = await this.amqpConnection.request<Product[]>({
+      exchange: 'event-exchange',
+      routingKey: 'get-products-by-ids',
+      payload: { ids },
+    });
+
+    const resp: OrderView = {
+      ...order,
+      orderLineItems: order.orderLineItems.map((li) => ({ ...li, product: products.find((p) => p.id === li.productId)! }))
+    }
+
+    return resp;
   }
 
   insertOrder(order: NewOrder) {
