@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { MicroservicesSharedDatabaseModule } from '@shop-project/microservices/shared/database';
-import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MicroservicesSharedEventBusModule } from "@shop-project/microservices/shared/event-bus";
+import { AppSubscribers } from "./app.subscribers";
 
 @Module({
   imports: [
@@ -14,7 +14,6 @@ import { MicroservicesSharedEventBusModule } from "@shop-project/microservices/s
     }),
     MicroservicesSharedEventBusModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AppSubscribers],
 })
 export class AppModule {}

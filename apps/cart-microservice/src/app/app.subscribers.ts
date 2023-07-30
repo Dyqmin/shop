@@ -10,7 +10,7 @@ export class AppSubscribers {
   @RabbitSubscribe({
     exchange: 'event-exchange',
     routingKey: 'order-created',
-    queue: 'event-bus-orders',
+    queue: 'cart-events-queue',
   })
   async handleOrderCreated(data: OrderCreatedEventData) {
     try {

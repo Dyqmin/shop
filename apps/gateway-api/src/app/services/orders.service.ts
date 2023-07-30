@@ -1,5 +1,5 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
+import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
+import { Injectable } from '@nestjs/common';
 import {
   LineItem,
   NewCustomer,
@@ -11,41 +11,57 @@ import {
   OrderShipment,
   OrderWithLineItem,
 } from '@shop-project/microservices/orders/types';
+import { fromPromise } from "rxjs/internal/observable/innerFrom";
 
 @Injectable()
 export class OrdersService {
-  constructor(@Inject('ORDERS_SERVICE') private readonly c: ClientProxy) {}
+  constructor(private readonly amqpConnection: AmqpConnection) {}
 
   getOrders(userId: string) {
-    return this.c.send<Order[], { userId: string }>({ cmd: 'getOrders' }, { userId });
+    return this.amqpConnection.request<Order[]>({
+      exchange: 'event-exchange',
+      routingKey: 'get-orders',
+      payload: { userId },
+    });
   }
 
   getOrder(id: number) {
-    return this.c.send<OrderWithLineItem>({ cmd: 'getOrder' }, { id });
+    return this.amqpConnection.request<OrderWithLineItem>({
+      exchange: 'event-exchange',
+      routingKey: 'get-order',
+      payload: { id },
+    });
   }
 
   insertOrder(order: NewOrder) {
-    return this.c.send<Order, { order: NewOrder }>({ cmd: 'insertOrder' }, { order });
+    return fromPromise(this.amqpConnection.request<Order>({
+      exchange: 'event-exchange',
+      routingKey: 'insert-order',
+      payload: { order },
+    }));
   }
 
   insertLineItems(lineItems: NewLineItem[]) {
-    return this.c.send<LineItem, { lineItems: NewLineItem[] }>(
-      { cmd: 'insertLineItems' },
-      { lineItems }
-    );
+    return fromPromise(this.amqpConnection.request<LineItem>({
+      exchange: 'event-exchange',
+      routingKey: 'insert-line-items',
+      payload: { lineItems },
+    }));
   }
 
   insertCustomer(newCustomer: NewCustomer) {
-    return this.c.send<OrderCustomer, { newCustomer: NewCustomer }>(
-      { cmd: 'insertCustomer' },
-      { newCustomer }
-    );
+    return fromPromise(this.amqpConnection.request<OrderCustomer>({
+      exchange: 'event-exchange',
+      routingKey: 'insert-customer',
+      payload: { newCustomer },
+    }));
   }
 
   insertShipment(newShipment: NewShipment) {
-    return this.c.send<OrderShipment, { newShipment: NewShipment }>(
-      { cmd: 'insertShipment' },
-      { newShipment }
-    );
+    return fromPromise(this.amqpConnection.request<OrderShipment>({
+      exchange: 'event-exchange',
+      routingKey: 'insert-shipment',
+      payload: { newShipment },
+    }));
   }
 }
