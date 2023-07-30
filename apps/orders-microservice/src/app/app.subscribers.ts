@@ -10,10 +10,7 @@ export class AppSubscribers {
   @RabbitRPC({
     exchange: 'event-exchange',
     routingKey: 'insert-order',
-    queue: 'orders_queue',
-    queueOptions: {
-      durable: false
-    }
+    queue: 'orders-queue',
   })
   insertOrder(data: { order: NewOrder }) {
     return this.appService.insertOrder(data.order);
@@ -22,10 +19,7 @@ export class AppSubscribers {
   @RabbitRPC({
     exchange: 'event-exchange',
     routingKey: 'insert-line-items',
-    queue: 'orders_queue',
-    queueOptions: {
-      durable: false
-    }
+    queue: 'orders-queue',
   })
   insertLineItems(data: { lineItems: NewLineItem[] }) {
     return this.appService.insertLineItems(data.lineItems);
@@ -34,10 +28,7 @@ export class AppSubscribers {
   @RabbitRPC({
     exchange: 'event-exchange',
     routingKey: 'insert-customer',
-    queue: 'orders_queue',
-    queueOptions: {
-      durable: false
-    }
+    queue: 'orders-queue',
   })
   insertCustomer(data: { newCustomer: NewCustomer }) {
     return this.appService.insertCustomer(data.newCustomer);
@@ -46,10 +37,7 @@ export class AppSubscribers {
   @RabbitRPC({
     exchange: 'event-exchange',
     routingKey: 'insert-shipment',
-    queue: 'orders_queue',
-    queueOptions: {
-      durable: false
-    }
+    queue: 'orders-queue',
   })
   insertShipment(data: { newShipment: NewShipment }) {
     return this.appService.insertShipment(data.newShipment);
@@ -58,10 +46,7 @@ export class AppSubscribers {
   @RabbitRPC({
     exchange: 'event-exchange',
     routingKey: 'get-order',
-    queue: 'orders_queue',
-    queueOptions: {
-      durable: false
-    }
+    queue: 'orders-queue',
   })
   getOrder(data: { id: number }) {
     return this.appService.getOrder(data.id);
@@ -70,10 +55,7 @@ export class AppSubscribers {
   @RabbitRPC({
     exchange: 'event-exchange',
     routingKey: 'get-orders',
-    queue: 'orders_queue',
-    queueOptions: {
-      durable: false
-    }
+    queue: 'orders-queue',
   })
   getOrders(data: { userId: string }) {
     return this.appService.getOrders(data.userId);
