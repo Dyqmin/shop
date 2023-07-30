@@ -10,10 +10,6 @@ async function bootstrap() {
       transport: Transport.RMQ,
       options: {
         urls: ['amqp://localhost:5672'],
-        queue: 'cart_queue',
-        queueOptions: {
-          durable: false,
-        },
       },
     }
   );
