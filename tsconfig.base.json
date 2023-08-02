@@ -40,6 +40,9 @@
       "@shop-project/microservices/shared/event-bus": [
         "libs/microservices/shared/event-bus/src/index.ts"
       ],
+      "@shop-project/shop/client/auth/data-access": [
+        "libs/shop/client/auth/data-access/src/index.ts"
+      ],
       "@shop-project/shop/client/cart/data-access": [
         "libs/shop/client/cart/data-access/src/index.ts"
       ],
@@ -64,6 +67,9 @@
       "@shop-project/shop/client/orders/ui": ["libs/shop/client/orders/ui/src/index.ts"],
       "@shop-project/shop/client/products/data-access": [
         "libs/shop/client/products/data-access/src/index.ts"
+      ],
+      "@shop-project/shop/client/products/feature-create-product": [
+        "libs/shop/client/products/feature-create-product/src/index.ts"
       ],
       "@shop-project/shop/client/products/feature-product-details": [
         "libs/shop/client/products/feature-product-details/src/index.ts"
