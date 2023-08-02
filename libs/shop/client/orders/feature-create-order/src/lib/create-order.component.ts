@@ -1,21 +1,11 @@
 import { NgClass, NgIf } from '@angular/common';
 import { Component, DestroyRef, effect, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import {
-  AbstractControl,
-  Form,
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  NonNullableFormBuilder,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NewCustomerPayload, NewShipmentPayload } from '@shop-project/microservices/orders/types';
 import { injectCartFeature } from '@shop-project/shop/client/cart/data-access';
 import { CartPreviewComponent } from '@shop-project/shop/client/cart/ui';
-import { injectOrdersFeature, OrdersService } from '@shop-project/shop/client/orders/data-access';
+import { injectOrdersFeature } from '@shop-project/shop/client/orders/data-access';
 import { ButtonComponent } from '@shop-project/shop/client/shared/ui';
 import { CustomerFormComponent } from '@shop-project/shop/client/shared/ui-customer-form';
 import { startWith, tap } from 'rxjs';
