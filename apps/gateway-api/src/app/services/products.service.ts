@@ -43,6 +43,16 @@ export class ProductsService {
     );
   }
 
+  editProduct(product: Product) {
+    return fromPromise(
+      this.amqpConnection.request<Product>({
+        exchange: 'event-exchange',
+        routingKey: 'edit-product',
+        payload: { product },
+      })
+    );
+  }
+
   checkProductsAvailability(lineItemPayload: LineItemPayload) {
     return fromPromise(
       this.amqpConnection.request<boolean>({

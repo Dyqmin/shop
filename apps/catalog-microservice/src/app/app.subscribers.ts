@@ -4,7 +4,7 @@ import { lineItemPayloadSchema } from '@shop-project/microservices/orders/types'
 import { AppService } from './app.service';
 import { ProductsOrderedEventData } from "@shop-project/microservices/shared/event-bus";
 import { Ctx, MessagePattern, Payload, RmqContext } from "@nestjs/microservices";
-import { NewProduct } from "@shop-project/microservices/catalog/types";
+import { NewProduct, Product } from "@shop-project/microservices/catalog/types";
 
 @Injectable()
 export class AppSubscribers {
@@ -60,6 +60,15 @@ export class AppSubscribers {
   })
   insertProduct(data: { product: NewProduct }) {
     return this._productsService.insertProduct(data.product);
+  }
+
+  @RabbitRPC({
+    exchange: 'event-exchange',
+    routingKey: 'edit-product',
+    queue: 'products-queue',
+  })
+  editProduct(data: { product: Product }) {
+    return this._productsService.editProduct(data.product);
   }
 
   @RabbitRPC({

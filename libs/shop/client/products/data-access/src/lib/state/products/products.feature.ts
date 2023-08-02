@@ -24,6 +24,8 @@ export const injectProductsFeature = () => {
     currentProduct: _store.selectSignal(selectCurrentProduct),
     createProduct: (newProduct: NewProduct) =>
       _store.dispatch(ProductsPageActions.createProduct({ newProduct })),
+    editProduct: (newProduct: NewProduct) =>
+      _store.dispatch(ProductsPageActions.editProduct({ newProduct })),
     init: () => _store.dispatch(ProductsPageActions.init()),
     setCurrentId: (id: number) => _store.dispatch(ProductsPageActions.productSelected({ id })),
   };

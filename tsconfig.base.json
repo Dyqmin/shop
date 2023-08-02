@@ -75,6 +75,9 @@
       "@shop-project/shop/client/products/feature-create-product": [
         "libs/shop/client/products/feature-create-product/src/index.ts"
       ],
+      "@shop-project/shop/client/products/feature-edit-products": [
+        "libs/shop/client/products/feature-edit-products/src/index.ts"
+      ],
       "@shop-project/shop/client/products/feature-product-details": [
         "libs/shop/client/products/feature-product-details/src/index.ts"
       ],

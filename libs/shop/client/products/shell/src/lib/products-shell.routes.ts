@@ -4,6 +4,7 @@ import { provideState } from '@ngrx/store';
 import { employeeGuard } from '@shop-project/shop/client/auth/data-access';
 import {
   createProduct$,
+  editProduct$,
   loadProduct$,
   loadProducts$,
   productDetailsFeature,
@@ -11,6 +12,7 @@ import {
   ProductsService,
 } from '@shop-project/shop/client/products/data-access';
 import { CreateProductComponent } from '@shop-project/shop/client/products/feature-create-product';
+import { EditProductsComponent } from '@shop-project/shop/client/products/feature-edit-products';
 import { ProductDetailsComponent } from '@shop-project/shop/client/products/feature-product-details';
 import { ProductsListComponent } from '@shop-project/shop/client/products/feature-products';
 import { productDetailResolver, resolveProducts } from './products.resolver';
@@ -22,7 +24,7 @@ export const productsShellRoutes = [
       ProductsService,
       provideState(productsFeature),
       provideState(productDetailsFeature),
-      provideEffects({ loadProducts$, loadProduct$, createProduct$ }),
+      provideEffects({ loadProducts$, loadProduct$, createProduct$, editProduct$ }),
     ],
     children: [
       {
@@ -37,8 +39,18 @@ export const productsShellRoutes = [
       },
       {
         path: ':productId',
-        component: ProductDetailsComponent,
         resolve: [productDetailResolver],
+        children: [
+          {
+            path: '',
+            component: ProductDetailsComponent,
+          },
+          {
+            path: 'edit',
+            component: EditProductsComponent,
+            canActivate: [employeeGuard],
+          },
+        ],
       },
     ],
   },

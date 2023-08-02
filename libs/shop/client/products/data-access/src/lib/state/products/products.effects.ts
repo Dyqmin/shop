@@ -40,3 +40,23 @@ export const createProduct$ = createEffect(
   },
   { functional: true }
 );
+
+export const editProduct$ = createEffect(
+  (actions$ = inject(Actions)) => {
+    const productsService = inject(ProductsService);
+    const toastrService = inject(ToastrService);
+
+    return actions$.pipe(
+      ofType(ProductsPageActions.editProduct),
+      exhaustMap(({ newProduct }) =>
+        productsService.editProduct(newProduct).pipe(
+          map(product => ProductsPageActions.editProductSuccess({ product })),
+          tap(() => {
+            toastrService.success('Pomyślnie zmodyfikowano produkt!');
+          })
+        )
+      )
+    );
+  },
+  { functional: true }
+);

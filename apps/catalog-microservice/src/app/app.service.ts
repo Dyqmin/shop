@@ -24,6 +24,19 @@ export class AppService {
     }
   }
 
+  async editProduct(product: Product): Promise<Product[]> {
+    try {
+      return await this._db.db
+        .update(products)
+        .set(product)
+        .where(eq(products.id, product.id))
+        .returning()
+        .catch();
+    } catch (err) {
+      return err;
+    }
+  }
+
   async reduceProductQuantity(lineItem: { productId: number; quantity: number }) {
     try {
       return await this._db.db

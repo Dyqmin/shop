@@ -22,4 +22,10 @@ export class ProductsService {
       .post<Product[]>(`http://localhost:3333/api/products`, product)
       .pipe(map(products => products[0] || null));
   }
+
+  editProduct(product: NewProduct): Observable<Product | null> {
+    return this._http
+      .put<Product[]>(`http://localhost:3333/api/products/${product.id}`, product)
+      .pipe(map(products => products[0] || null));
+  }
 }

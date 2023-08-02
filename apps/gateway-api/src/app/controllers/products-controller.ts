@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 
 import { ApiBody, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { NewProduct } from '@shop-project/microservices/catalog/types';
+import { NewProduct, Product } from '@shop-project/microservices/catalog/types';
 import {
   insertProductsSchema,
   selectProductsSchema,
@@ -52,5 +52,13 @@ export class ProductsController {
   })
   insertProducts(@Body() product: NewProduct) {
     return this.productsService.insertProduct(product);
+  }
+
+  @Put(':id')
+  @ApiBody({
+    schema: zodToOpenAPI(insertProductsSchema),
+  })
+  editProducts(@Body() product: Product) {
+    return this.productsService.editProduct(product);
   }
 }

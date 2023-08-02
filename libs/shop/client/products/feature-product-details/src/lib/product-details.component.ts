@@ -38,7 +38,6 @@ export class ProductDetailsComponent {
   cartFeature = injectCartFeature();
 
   onAddToCart() {
-    console.log('asdasda');
     const product = this.productsFeature.product();
     if (product) {
       this.cartFeature.addToCart({
