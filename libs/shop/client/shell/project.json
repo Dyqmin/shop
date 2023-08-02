@@ -3,7 +3,7 @@
   "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/shop/client/shell/src",
   "prefix": "shop-project",
-  "tags": [],
+  "tags": ["type:shell"],
   "projectType": "library",
   "targets": {
     "test": {

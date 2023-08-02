@@ -3,7 +3,7 @@
   "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/shop/client/orders/feature-order-details/src",
   "prefix": "shop-project",
-  "tags": [],
+  "tags": ["type:feature"],
   "projectType": "library",
   "targets": {
     "test": {
