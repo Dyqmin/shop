@@ -1,13 +1,21 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
-import { AuthService } from '@auth0/auth0-angular';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { tap } from 'rxjs';
 import { Router } from '@angular/router';
+import { AuthService } from '@auth0/auth0-angular';
+import { ButtonComponent } from "@shop-project/shop/client/shared/ui";
+import { tap } from 'rxjs';
+
 
 @Component({
   standalone: true,
   selector: 'shop-project-auth-button',
-  template: '<button (click)="auth.loginWithRedirect()">Log in</button>',
+  template: `
+    <div class="mx-auto w-full flex justify-center flex-col items-center mt-4">
+      <span class="text-3xl block">Logowanie do Sklepu Market</span>
+      <shop-project-button (btnClick)="auth.loginWithRedirect()">Zaloguj się</shop-project-button>
+    </div>
+  `,
+  imports: [ButtonComponent],
 })
 export class AuthButtonComponent implements OnInit {
   auth = inject(AuthService);

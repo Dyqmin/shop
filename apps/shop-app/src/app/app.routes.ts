@@ -10,12 +10,12 @@ import { shellRoutes } from "@shop-project/shop/client/shell";
 export const appRoutes: Route[] = [
   {
     path: '',
-    component: AuthButtonComponent,
-  },
-  {
-    path: 'home',
     component: HomeComponent,
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'login',
+    component: AuthButtonComponent,
   },
   {
     path: 'error',
