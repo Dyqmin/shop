@@ -3,7 +3,7 @@
   "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/shop/client/orders/ui/src",
   "prefix": "shop-project",
-  "tags": ["type:ui"],
+  "tags": ["scope:ui"],
   "projectType": "library",
   "targets": {
     "test": {
