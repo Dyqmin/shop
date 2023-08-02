@@ -2,7 +2,8 @@ import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { filter, map } from 'rxjs';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
+import { isEmployee$ } from "@shop-project/shop/client/auth/data-access";
 
 @Component({
   standalone: true,
@@ -43,13 +44,17 @@ import { AsyncPipe } from '@angular/common';
         <a routerLink="/products">Produkty</a>
         <a routerLink="/orders">Zamówienia</a>
         <a routerLink="/contact">Kontakt</a>
+        <ng-container *ngIf="isEmployee$ | async">
+          <a routerLink="/contact">Panel Pracownika</a>
+        </ng-container>
       </div>
     </div>
   </nav>`,
-  imports: [RouterLink, AsyncPipe],
+  imports: [RouterLink, AsyncPipe, NgIf],
 })
 export class NavComponent {
   private readonly _auth = inject(AuthService);
+  readonly isEmployee$ = isEmployee$();
   nickname$ = this._auth.user$.pipe(
     filter(user => !!user),
     map(user => user?.nickname)

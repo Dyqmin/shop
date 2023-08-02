@@ -1,9 +1,9 @@
 import { CanActivateFn } from "@angular/router";
 import { AuthService } from "@auth0/auth0-angular";
 import { inject } from "@angular/core";
-import { map } from "rxjs";
+import { map, Observable } from "rxjs";
 
-export const employeeGuard: CanActivateFn = () => {
+export const isEmployee$ = (): Observable<boolean> => {
   const _auth = inject(AuthService);
   return _auth.user$.pipe(
     map((user) => {
@@ -14,4 +14,8 @@ export const employeeGuard: CanActivateFn = () => {
       return false;
     })
   );
+}
+
+export const employeeGuard: CanActivateFn = () => {
+  return isEmployee$();
 }

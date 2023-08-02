@@ -51,6 +51,10 @@
       ],
       "@shop-project/shop/client/cart/shell": ["libs/shop/client/cart/shell/src/index.ts"],
       "@shop-project/shop/client/cart/ui": ["libs/shop/client/cart/ui/src/index.ts"],
+      "@shop-project/shop/client/employee/feature-dashboard": [
+        "libs/shop/client/employee/feature-dashboard/src/index.ts"
+      ],
+      "@shop-project/shop/client/employee/shell": ["libs/shop/client/employee/shell/src/index.ts"],
       "@shop-project/shop/client/orders/data-access": [
         "libs/shop/client/orders/data-access/src/index.ts"
       ],
