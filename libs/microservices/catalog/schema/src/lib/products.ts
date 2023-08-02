@@ -1,4 +1,4 @@
-import { pgTable, serial, varchar, numeric, boolean, pgEnum, integer } from 'drizzle-orm/pg-core';
+import { pgTable, serial, varchar, numeric, boolean, pgEnum, integer, text } from 'drizzle-orm/pg-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
@@ -7,7 +7,7 @@ export const currencyEnum = pgEnum('currency_enum', ['PLN']);
 export const products = pgTable('products', {
   id: serial('id').primaryKey(),
   name: varchar('name', { length: 256 }).notNull(),
-  description: varchar('description', { length: 256 }),
+  description: text('description'),
   price: numeric('price').notNull(),
   imageUrl: varchar('image_url'),
   isFeatured: boolean('is_featured').notNull().default(false),
