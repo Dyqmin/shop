@@ -15,6 +15,46 @@
               {
                 "sourceTag": "*",
                 "onlyDependOnLibsWithTags": ["*"]
+              },
+              {
+                "sourceTag": "type:shell",
+                "onlyDependOnLibsWithTags": [
+                  "type:ui",
+                  "type:types",
+                  "type:feature",
+                  "type:data-access",
+                  "type:shell"
+                ]
+              },
+              {
+                "sourceTag": "type:feature",
+                "onlyDependOnLibsWithTags": [
+                  "type:ui",
+                  "type:types",
+                  "type:feature",
+                  "type:data-access"
+                ]
+              },
+              {
+                "sourceTag": "type:data-access",
+                "onlyDependOnLibsWithTags": [
+                  "type:ui",
+                  "type:types",
+                  "type:data-access"
+                ]
+              },
+              {
+                "sourceTag": "type:ui",
+                "onlyDependOnLibsWithTags": [
+                  "type:types",
+                  "type:ui"
+                ]
+              },
+              {
+                "sourceTag": "type:types",
+                "onlyDependOnLibsWithTags": [
+                  "type:types"
+                ]
               }
             ]
           }
