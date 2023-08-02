@@ -9,7 +9,7 @@ import { Product } from '@shop-project/microservices/catalog/types';
   standalone: true,
   selector: 'shop-project-products-list',
   template: `
-    <div *ngIf="productsFeature.products() as products" class="grid grid-cols-3">
+    <div *ngIf="productsFeature.products() as products" class="grid grid-cols-3 gap-3">
       <shop-project-product
         *ngFor="let product of products"
         [product]="product"
