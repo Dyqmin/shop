@@ -38,6 +38,16 @@
         }
       }
     },
+    "run": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx run gateway-api:build:production",
+          "node dist/apps/gateway-api/main.js"
+        ],
+        "parallel": false
+      }
+    },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],

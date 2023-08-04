@@ -38,6 +38,16 @@
         }
       }
     },
+    "run": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx run orders-microservice:build:production",
+          "node dist/apps/orders-microservice/main.js"
+        ],
+        "parallel": false
+      }
+    },
     "lint": {
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
