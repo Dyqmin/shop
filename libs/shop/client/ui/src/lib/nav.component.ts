@@ -45,7 +45,7 @@ import { isEmployee$ } from "@shop-project/shop/client/auth/data-access";
         <a routerLink="/orders">Zamówienia</a>
         <a routerLink="/contact">Kontakt</a>
         <ng-container *ngIf="isEmployee$ | async">
-          <a routerLink="/contact">Panel Pracownika</a>
+          <a routerLink="/employee">Panel Pracownika</a>
         </ng-container>
       </div>
     </div>
