@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 
-import { ApiBody, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { NewProduct, Product } from '@shop-project/microservices/catalog/types';
 import {
   insertProductsSchema,
@@ -13,6 +13,7 @@ import { LineItemPayload, lineItemPayloadSchema } from "@shop-project/microservi
 
 @Controller('products')
 @ApiTags('products')
+@ApiBearerAuth()
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
@@ -21,7 +22,7 @@ export class ProductsController {
     schema: zodToOpenAPI(selectProductsSchema),
   })
   @ApiQuery({ name: 'ids', required: false, type: String })
-  // @UseGuards(Auth0Guard)
+  @UseGuards(Auth0Guard)
   getProducts(@Query('ids') ids?: string) {
     if (ids) {
       const parsedIds = ids.split(',').map(Number);
@@ -34,6 +35,7 @@ export class ProductsController {
   @ApiResponse({
     schema: zodToOpenAPI(selectProductsSchema),
   })
+  @UseGuards(Auth0Guard)
   getProduct(@Param('id') id: number) {
     return this.productsService.getProduct(id);
   }
@@ -42,6 +44,7 @@ export class ProductsController {
   @ApiBody({
     schema: zodToOpenAPI(lineItemPayloadSchema),
   })
+  @UseGuards(Auth0Guard)
   checkProductsAvailability(@Body() body: LineItemPayload) {
     return this.productsService.checkProductsAvailability(body);
   }
@@ -50,6 +53,7 @@ export class ProductsController {
   @ApiBody({
     schema: zodToOpenAPI(insertProductsSchema),
   })
+  @UseGuards(Auth0Guard)
   insertProducts(@Body() product: NewProduct) {
     return this.productsService.insertProduct(product);
   }
@@ -58,6 +62,7 @@ export class ProductsController {
   @ApiBody({
     schema: zodToOpenAPI(insertProductsSchema),
   })
+  @UseGuards(Auth0Guard)
   editProducts(@Body() product: Product) {
     return this.productsService.editProduct(product);
   }

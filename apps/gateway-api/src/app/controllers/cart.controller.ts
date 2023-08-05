@@ -1,12 +1,12 @@
+import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
-
-import { ApiTags } from "@nestjs/swagger";
-import { CartItem } from "@shop-project/microservices/cart/types";
-import { Auth0Guard, User } from "@shop-project/api/auth";
-import { AmqpConnection } from "@golevelup/nestjs-rabbitmq";
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { Auth0Guard, User } from '@shop-project/api/auth';
+import { CartItem } from '@shop-project/microservices/cart/types';
 
 @Controller('cart')
 @ApiTags('cart')
+@ApiBearerAuth()
 export class CartController {
   constructor(private readonly amqpConnection: AmqpConnection) {}
 
@@ -16,7 +16,7 @@ export class CartController {
     return this.amqpConnection.request({
       exchange: 'event-exchange',
       routingKey: 'get-cart',
-      payload: { id: user.sub }
+      payload: { id: user.sub },
     });
   }
 
@@ -31,7 +31,7 @@ export class CartController {
         productId: cartItem.product.id,
         product: JSON.stringify(cartItem.product),
         quantity: cartItem.quantity,
-      }
+      },
     });
   }
 
@@ -44,7 +44,7 @@ export class CartController {
       payload: {
         userId: user.sub,
         productId: id,
-      }
+      },
     });
   }
 }

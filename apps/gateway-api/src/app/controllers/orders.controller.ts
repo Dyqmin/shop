@@ -9,16 +9,14 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Auth0Guard, User } from '@shop-project/api/auth';
 import {
   EditOrderDto,
   insertOrderSchema,
   insertOrderWithLineItemsDtoSchema,
   NewLineItem,
-  NewOrder,
   NewOrderDto,
-  Order,
   orderWithLineItems,
 } from '@shop-project/microservices/orders/types';
 import { zodToOpenAPI } from 'nestjs-zod';
@@ -28,6 +26,7 @@ import { ProductsService } from '../services/products.service';
 
 @Controller('orders')
 @ApiTags('orders')
+@ApiBearerAuth()
 export class OrdersController {
   constructor(
     private readonly _ordersService: OrdersService,
@@ -47,7 +46,7 @@ export class OrdersController {
   @ApiResponse({
     schema: zodToOpenAPI(orderWithLineItems),
   })
-  // @UseGuards(Auth0Guard)
+  @UseGuards(Auth0Guard)
   getOrder(@Param('id') id: number) {
     return this._ordersService.getOrder(id);
   }
@@ -56,6 +55,7 @@ export class OrdersController {
   @ApiBody({
     schema: zodToOpenAPI(insertOrderSchema),
   })
+  @UseGuards(Auth0Guard)
   editOrder(@Param('id') id: number, @Body() editOrderDto: EditOrderDto) {
     return this._ordersService.editOrder(id, editOrderDto);
   }
