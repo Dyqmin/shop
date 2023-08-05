@@ -1,7 +1,13 @@
-import { Injectable } from "@nestjs/common";
-import { RabbitRPC } from "@golevelup/nestjs-rabbitmq";
-import { NewCustomer, NewLineItem, NewOrder, NewShipment } from "@shop-project/microservices/orders/types";
-import { AppService } from "./app.service";
+import { RabbitRPC } from '@golevelup/nestjs-rabbitmq';
+import { Injectable } from '@nestjs/common';
+import {
+  EditOrderDto,
+  NewCustomer,
+  NewLineItem,
+  NewOrder,
+  NewShipment,
+} from '@shop-project/microservices/orders/types';
+import { AppService } from './app.service';
 
 @Injectable()
 export class AppSubscribers {
@@ -14,6 +20,15 @@ export class AppSubscribers {
   })
   insertOrder(data: { order: NewOrder }) {
     return this.appService.insertOrder(data.order);
+  }
+
+  @RabbitRPC({
+    exchange: 'event-exchange',
+    routingKey: 'edit-order',
+    queue: 'orders-queue',
+  })
+  editOrder(data: { id: number; order: EditOrderDto }) {
+    return this.appService.editOrder(data.id, data.order);
   }
 
   @RabbitRPC({

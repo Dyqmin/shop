@@ -5,15 +5,20 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  Patch,
   Post,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Auth0Guard, User } from '@shop-project/api/auth';
 import {
+  EditOrderDto,
+  insertOrderSchema,
   insertOrderWithLineItemsDtoSchema,
   NewLineItem,
+  NewOrder,
   NewOrderDto,
+  Order,
   orderWithLineItems,
 } from '@shop-project/microservices/orders/types';
 import { zodToOpenAPI } from 'nestjs-zod';
@@ -45,6 +50,14 @@ export class OrdersController {
   // @UseGuards(Auth0Guard)
   getOrder(@Param('id') id: number) {
     return this._ordersService.getOrder(id);
+  }
+
+  @Patch(':id')
+  @ApiBody({
+    schema: zodToOpenAPI(insertOrderSchema),
+  })
+  editOrder(@Param('id') id: number, @Body() editOrderDto: EditOrderDto) {
+    return this._ordersService.editOrder(id, editOrderDto);
   }
 
   @Post()
@@ -102,7 +115,12 @@ export class OrdersController {
                 }),
               ])
             ),
-            map(([order, lineItems, customer, shipment]) => ({ ...order, lineItems, customer, shipment }))
+            map(([order, lineItems, customer, shipment]) => ({
+              ...order,
+              lineItems,
+              customer,
+              shipment,
+            }))
           )
       )
     );

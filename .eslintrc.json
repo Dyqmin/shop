@@ -51,6 +51,13 @@
                 ]
               },
               {
+                "sourceTag": "scope:util",
+                "onlyDependOnLibsWithTags": [
+                  "scope:util",
+                  "scope:types"
+                ]
+              },
+              {
                 "sourceTag": "scope:types",
                 "onlyDependOnLibsWithTags": [
                   "scope:types"

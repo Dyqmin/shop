@@ -9,6 +9,7 @@ import {
   ordersRelations,
 } from '@shop-project/microservices/orders/schema';
 import {
+  EditOrderDto,
   NewCustomer,
   NewLineItem,
   NewOrder,
@@ -105,5 +106,19 @@ export class AppService {
 
   getOrders(userId: string) {
     return this._db.db.select().from(orders).where(eq(orders.customerId, userId));
+  }
+
+  async editOrder(id: number, order: EditOrderDto) {
+    try {
+      const result = await this._db.db
+        .update(orders)
+        .set(order)
+        .where(eq(orders.id, id))
+        .returning()
+        .catch();
+      return result[0];
+    } catch (err) {
+      return err;
+    }
   }
 }

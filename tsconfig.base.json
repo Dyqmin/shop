@@ -61,14 +61,21 @@
       "@shop-project/shop/client/orders/feature-create-order": [
         "libs/shop/client/orders/feature-create-order/src/index.ts"
       ],
+      "@shop-project/shop/client/orders/feature-edit-order": [
+        "libs/shop/client/orders/feature-edit-order/src/index.ts"
+      ],
       "@shop-project/shop/client/orders/feature-order-details": [
         "libs/shop/client/orders/feature-order-details/src/index.ts"
       ],
       "@shop-project/shop/client/orders/feature-orders": [
         "libs/shop/client/orders/feature-orders/src/index.ts"
       ],
+      "@shop-project/shop/client/orders/feature-orders-management": [
+        "libs/shop/client/orders/feature-orders-management/src/index.ts"
+      ],
       "@shop-project/shop/client/orders/shell": ["libs/shop/client/orders/shell/src/index.ts"],
       "@shop-project/shop/client/orders/ui": ["libs/shop/client/orders/ui/src/index.ts"],
+      "@shop-project/shop/client/orders/utils": ["libs/shop/client/orders/utils/src/index.ts"],
       "@shop-project/shop/client/products/data-access": [
         "libs/shop/client/products/data-access/src/index.ts"
       ],

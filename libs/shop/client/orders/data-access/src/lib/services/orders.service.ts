@@ -18,4 +18,8 @@ export class OrdersService {
   createOrder(orderDto: NewOrderDto): Observable<OrderWithLineItem> {
     return this._http.post<OrderWithLineItem>(`http://localhost:3333/api/orders`, orderDto);
   }
+
+  editOrder(orderId: number, order: Partial<Order>): Observable<OrderWithLineItem> {
+    return this._http.patch<OrderWithLineItem>(`http://localhost:3333/api/orders/${orderId}`, order);
+  }
 }

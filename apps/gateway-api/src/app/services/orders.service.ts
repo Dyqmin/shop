@@ -1,6 +1,8 @@
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 import { Injectable } from '@nestjs/common';
+import { Product } from '@shop-project/microservices/catalog/types';
 import {
+  EditOrderDto,
   LineItem,
   NewCustomer,
   NewLineItem,
@@ -8,11 +10,11 @@ import {
   NewShipment,
   Order,
   OrderCustomer,
-  OrderShipment, OrderView,
+  OrderShipment,
+  OrderView,
   OrderWithLineItem,
 } from '@shop-project/microservices/orders/types';
-import { fromPromise } from "rxjs/internal/observable/innerFrom";
-import { Product } from "@shop-project/microservices/catalog/types";
+import { fromPromise } from 'rxjs/internal/observable/innerFrom';
 
 @Injectable()
 export class OrdersService {
@@ -33,7 +35,7 @@ export class OrdersService {
       payload: { id },
     });
 
-    const ids = order.orderLineItems.map((lineItem) => lineItem.productId);
+    const ids = order.orderLineItems.map(lineItem => lineItem.productId);
     const products = await this.amqpConnection.request<Product[]>({
       exchange: 'event-exchange',
       routingKey: 'get-products-by-ids',
@@ -42,41 +44,62 @@ export class OrdersService {
 
     const resp: OrderView = {
       ...order,
-      orderLineItems: order.orderLineItems.map((li) => ({ ...li, product: products.find((p) => p.id === li.productId)! }))
-    }
+      orderLineItems: order.orderLineItems.map(li => ({
+        ...li,
+        product: products.find(p => p.id === li.productId)!,
+      })),
+    };
 
     return resp;
   }
 
   insertOrder(order: NewOrder) {
-    return fromPromise(this.amqpConnection.request<Order>({
-      exchange: 'event-exchange',
-      routingKey: 'insert-order',
-      payload: { order },
-    }));
+    return fromPromise(
+      this.amqpConnection.request<Order>({
+        exchange: 'event-exchange',
+        routingKey: 'insert-order',
+        payload: { order },
+      })
+    );
   }
 
   insertLineItems(lineItems: NewLineItem[]) {
-    return fromPromise(this.amqpConnection.request<LineItem>({
-      exchange: 'event-exchange',
-      routingKey: 'insert-line-items',
-      payload: { lineItems },
-    }));
+    return fromPromise(
+      this.amqpConnection.request<LineItem>({
+        exchange: 'event-exchange',
+        routingKey: 'insert-line-items',
+        payload: { lineItems },
+      })
+    );
   }
 
   insertCustomer(newCustomer: NewCustomer) {
-    return fromPromise(this.amqpConnection.request<OrderCustomer>({
-      exchange: 'event-exchange',
-      routingKey: 'insert-customer',
-      payload: { newCustomer },
-    }));
+    return fromPromise(
+      this.amqpConnection.request<OrderCustomer>({
+        exchange: 'event-exchange',
+        routingKey: 'insert-customer',
+        payload: { newCustomer },
+      })
+    );
   }
 
   insertShipment(newShipment: NewShipment) {
-    return fromPromise(this.amqpConnection.request<OrderShipment>({
-      exchange: 'event-exchange',
-      routingKey: 'insert-shipment',
-      payload: { newShipment },
-    }));
+    return fromPromise(
+      this.amqpConnection.request<OrderShipment>({
+        exchange: 'event-exchange',
+        routingKey: 'insert-shipment',
+        payload: { newShipment },
+      })
+    );
+  }
+
+  editOrder(id: number, order: EditOrderDto) {
+    return fromPromise(
+      this.amqpConnection.request<Order>({
+        exchange: 'event-exchange',
+        routingKey: 'edit-order',
+        payload: { id, order },
+      })
+    );
   }
 }
