@@ -10,7 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Auth0Guard, User } from '@shop-project/api/auth';
+import { Auth0Guard, EmployeeAuth0Guard, User } from '@shop-project/api/auth';
 import {
   EditOrderDto,
   insertOrderSchema,
@@ -55,7 +55,7 @@ export class OrdersController {
   @ApiBody({
     schema: zodToOpenAPI(insertOrderSchema),
   })
-  @UseGuards(Auth0Guard)
+  @UseGuards(EmployeeAuth0Guard)
   editOrder(@Param('id') id: number, @Body() editOrderDto: EditOrderDto) {
     return this._ordersService.editOrder(id, editOrderDto);
   }

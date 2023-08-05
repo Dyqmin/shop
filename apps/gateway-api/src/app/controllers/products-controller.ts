@@ -1,15 +1,14 @@
 import { Body, Controller, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
-
 import { ApiBearerAuth, ApiBody, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { NewProduct, Product } from '@shop-project/microservices/catalog/types';
+import { Auth0Guard, EmployeeAuth0Guard } from '@shop-project/api/auth';
 import {
   insertProductsSchema,
   selectProductsSchema,
 } from '@shop-project/microservices/catalog/schema';
+import { NewProduct, Product } from '@shop-project/microservices/catalog/types';
+import { LineItemPayload, lineItemPayloadSchema } from '@shop-project/microservices/orders/types';
 import { zodToOpenAPI } from 'nestjs-zod';
-import { Auth0Guard } from '@shop-project/api/auth';
 import { ProductsService } from '../services/products.service';
-import { LineItemPayload, lineItemPayloadSchema } from "@shop-project/microservices/orders/types";
 
 @Controller('products')
 @ApiTags('products')
@@ -53,7 +52,7 @@ export class ProductsController {
   @ApiBody({
     schema: zodToOpenAPI(insertProductsSchema),
   })
-  @UseGuards(Auth0Guard)
+  @UseGuards(EmployeeAuth0Guard)
   insertProducts(@Body() product: NewProduct) {
     return this.productsService.insertProduct(product);
   }
@@ -62,7 +61,7 @@ export class ProductsController {
   @ApiBody({
     schema: zodToOpenAPI(insertProductsSchema),
   })
-  @UseGuards(Auth0Guard)
+  @UseGuards(EmployeeAuth0Guard)
   editProducts(@Body() product: Product) {
     return this.productsService.editProduct(product);
   }
