@@ -9,7 +9,7 @@ import { filter, tap } from 'rxjs';
   standalone: true,
   selector: 'shop-project-nav',
   template: `<nav class="my-5">
-      <div class="flex justify-between max-w-screen-lg w-full mx-auto my-4 px-2 lg:px-0">
+      <div class="flex justify-between max-w-screen-sm w-full mx-auto my-4 px-2 lg:px-0">
         <div>
           <span class="text-5xl mb-2">Sklep Market</span>
         </div>

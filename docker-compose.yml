@@ -7,7 +7,7 @@ services:
       - "15672:15672"
     env_file:
       - .env.local
-    image: rabbitmq:3-management-alpine
+    image: rabbitmq:3.12.2-alpine
     networks:
       - rabbitmq_go_net
   db-catalog:

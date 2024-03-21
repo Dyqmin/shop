@@ -41,32 +41,19 @@
     "run": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": [
-          "nx run gateway-api:build:production",
-          "node dist/apps/gateway-api/main.js"
-        ],
+        "commands": ["nx run gateway-api:build:production", "node dist/apps/gateway-api/main.js"],
         "parallel": false
       }
     },
     "lint": {
-      "executor": "@nx/linter:eslint",
-      "outputs": ["{options.outputFile}"],
-      "options": {
-        "lintFilePatterns": ["apps/gateway-api/**/*.ts"]
-      }
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
     },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/gateway-api/jest.config.ts",
-        "passWithNoTests": true
-      },
-      "configurations": {
-        "ci": {
-          "ci": true,
-          "codeCoverage": true
-        }
+        "jestConfig": "apps/gateway-api/jest.config.ts"
       }
     }
   },

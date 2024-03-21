@@ -40,7 +40,7 @@ export const appConfig: ApplicationConfig = {
     },
     provideHttpClient(withInterceptorsFromDi()),
     provideStore(),
-    provideStoreDevtools(),
+    provideStoreDevtools({connectInZone: true}),
     provideShell(),
     provideToastr({
       positionClass: 'toast-bottom-right'
